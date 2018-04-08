@@ -29,15 +29,15 @@ Leap.loop({ hand: function(hand) {
 
   // TODO: 4.1, Moving the cursor with Leap data
   // Use the hand data to control the cursor's screen position
-  var cursorPosition = hand.screenPosition();
+  var cursorPosition = [hand.screenPosition()[0]+50, hand.screenPosition()[1]+300];;
   cursor.setScreenPosition(cursorPosition);
 
   // TODO: 4.1
   // Get the tile that the player is currently selecting, and highlight it
-  selectedTile = getIntersectingTile(cursorPosition);
-  if (selectedTile != false) {
-    highlightTile(selectedTile, Colors.GREEN);
-  }
+  // selectedTile = getIntersectingTile(cursorPosition);
+  // if (selectedTile != false) {
+  //   highlightTile(selectedTile, Colors.GREEN);
+  // }
 
 
   // SETUP mode
@@ -46,8 +46,22 @@ Leap.loop({ hand: function(hand) {
     // TODO: 4.2, Deploying ships
     //  Enable the player to grab, move, rotate, and drop ships to deploy them
 
+    selectedTile = getIntersectingTile(cursorPosition);
     // First, determine if grabbing pose or not
     isGrabbing = hand.grabStrength == 1.0 || hand.pinchStrength == 1.0;
+
+    if (isGrabbing) {
+      $('#cursor-img').attr('src', 'img/stick1.png');
+      $('#cursor-img').attr('height', '80');
+      if (selectedTile != false) {
+        highlightTile(selectedTile, Colors.GREEN);
+      }
+      
+      // console.log($('#cursor-img').style('background'))
+    } else {
+      $('#cursor-img').attr('src', 'img/blueDot.png');
+      $('#cursor-img').attr('height', '25');
+    }
 
     // Grabbing, but no selected ship yet. Look for one.
     // TODO: Update grabbedShip/grabbedOffset if the user is hovering over a ship

@@ -96,8 +96,20 @@ var unhighlightTiles = function() {
 // Input:
 //    position = {row: r, col: c}, tilePosition
 //    color = color hex code (see Colors at top of file)
+snare1Played = false;
 var highlightTile = function(position, color) {
-  tiles[position.row*NUMTILES + position.col].setProperties({backgroundColor: color});
+  // console.log(position.row*NUMTILES + position.col)
+  // console.log(tiles.length/2)
+  if (position.row*NUMTILES + position.col == Math.floor(tiles.length/2)) {
+    tiles[position.row*NUMTILES + position.col].setProperties({backgroundColor: color});
+    if (!snare1Played) {
+      document.getElementById('snare1').play();
+      snare1Played = true;
+    } 
+    // document.getElementById('snare1').pause();
+  } else {
+    snare1Played = false;
+  }
 };
 
 // unblinkTiles()

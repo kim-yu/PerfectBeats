@@ -138,11 +138,14 @@ var setupUserInterface = function() {
   var cursorSurface = new Surface({
     size : [CURSORSIZE, CURSORSIZE],
     properties : {
-        backgroundColor: 'white',
+        // display: 'none',
+        background: 'none',
         borderRadius: CURSORSIZE/2 + 'px',
+        // background-image: 'img/stick1.png',
         pointerEvents : 'none',
         zIndex: 1
-    }
+    },
+    content: '<img id="cursor-img" src="img/blueDot.png" height="25">'
   });
   var cursorOriginModifier = new StateModifier({origin: [0.5, 0.5]});
   var cursorModifier = new Modifier({
