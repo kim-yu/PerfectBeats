@@ -42,7 +42,7 @@ Leap.loop({ hand: function(hand) {
 
   // SETUP mode
   if (gameState.get('state') == 'setup') {
-    background.setContent("<h1>battleship</h1><h3 style='color: #7CD3A2;'>deploy ships</h3>");
+    background.setContent("<h1>PerfectBeats</h1><h3 style='color: #7CD3A2;'>deploy ships</h3>");
     // TODO: 4.2, Deploying ships
     //  Enable the player to grab, move, rotate, and drop ships to deploy them
 
@@ -92,12 +92,12 @@ Leap.loop({ hand: function(hand) {
   // Note: Don't have to touch this code
   else {
     if (gameState.get('state') == 'playing') {
-      background.setContent("<h1>battleship</h1><h3 style='color: #7CD3A2;'>game on</h3>");
+      background.setContent("<h1>PerfectBeats</h1><h3 style='color: #7CD3A2;'>game on</h3>");
       turnFeedback.setContent(gameState.getTurnHTML());
     }
     else if (gameState.get('state') == 'end') {
       var endLabel = gameState.get('winner') == 'player' ? 'you won!' : 'game over';
-      background.setContent("<h1>battleship</h1><h3 style='color: #7CD3A2;'>"+endLabel+"</h3>");
+      background.setContent("<h1>PerfectBeats</h1><h3 style='color: #7CD3A2;'>"+endLabel+"</h3>");
       turnFeedback.setContent("");
     }
 
