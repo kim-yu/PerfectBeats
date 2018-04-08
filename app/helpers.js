@@ -97,7 +97,9 @@ var unhighlightTiles = function() {
 //    position = {row: r, col: c}, tilePosition
 //    color = color hex code (see Colors at top of file)
 var highlightTile = function(position, color) {
-  tiles[position.row*NUMTILES + position.col].setProperties({backgroundColor: color});
+  if (position.row*NUMTILES + position.col == tiles.length / 2) {
+    tiles[position.row*NUMTILES + position.col].setProperties({backgroundColor: Colors.YELLOW});
+  }
 };
 
 // unblinkTiles()

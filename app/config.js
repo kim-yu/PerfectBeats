@@ -1,11 +1,12 @@
 // Configuration of the game
 
 var Colors = {
-  GREY: "#AAAAAA",  // default tile color
-  GREEN: "#7CD3A2", // highlighting
-  RED: "#FA5C4F",   // hits
-  YELLOW: "#FAF36F",// misses
+  GREY: "#AAAAAA",  // default drum color
+  BLUE: "#257DE7", // drum sticks, highlighting in recording state
+  RED: "#FA5C4F",   // recording state
+  YELLOW: "#FAF36F",// highlighting
 };
+
 var ROWNAMES = ["A", "B", "C", "D", "E", "F", "G", "H"];
 var COLNAMES = ["1", "2", "3", "4", "5", "6", "7", "8"];
 

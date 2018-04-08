@@ -18,7 +18,7 @@ var background, turnFeedback, otherFeedback;
 var setupUserInterface = function() {
   var mainContext = Engine.createContext();
   background = new Surface({
-    content: "<h1>battleship</h1>",
+    content: "<h1>PerfectBeats</h1>",
     properties: {
       backgroundColor: "rgb(34, 34, 34)",
       color: "white"
