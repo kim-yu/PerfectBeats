@@ -54,7 +54,7 @@ Leap.loop({ hand: function(hand) {
       $('#cursor-img').attr('src', 'img/stick1.png');
       $('#cursor-img').attr('height', '80');
       if (selectedTile != false) {
-        highlightTile(selectedTile, Colors.GREEN);
+        highlightTile(selectedTile, Colors.YELLOW);
       }
       
       // console.log($('#cursor-img').style('background'))
