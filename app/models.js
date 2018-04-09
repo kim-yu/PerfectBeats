@@ -7,103 +7,65 @@ var Cursor = Backbone.Model.extend({
   }
 });
 
-function shuffle(o){ //v1.0
-  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-  return o;
-};
+// function shuffle(o){ //v1.0
+//   for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+//   return o;
+// };
 
-var GameState = Backbone.Model.extend({
+var State = Backbone.Model.extend({
   defaults: {
-    state: "setup", // setup, playing, end
-    turn: "player",  // player, cpu
+    state: "setup", // setup, playing, recording, playback
     boards: [],
     waiting: true
   },
 
   initialize: function() {
-    _.bindAll(this, 'waitingForPlayer', 'nextTurn');
-    var shotSequence = [];
-    for (var row = 0; row < NUMTILES; row++) {
-      for (var col = 0; col < NUMTILES; col++) {
-        shotSequence.push({row: row, col: col});
-      }
-    }
-    shuffle(shotSequence);
-    var shots = shotSequence.map(function(pos) { return new Shot({position: pos}); });
-    this.set('cpuShots', new ShotSet(shots));
+    // _.bindAll(this, 'waitingForPlayer', 'nextTurn');
+    // var shotSequence = [];
+    // for (var row = 0; row < NUMTILES; row++) {
+    //   for (var col = 0; col < NUMTILES; col++) {
+    //     shotSequence.push({row: row, col: col});
+    //   }
+    // }
+    // shuffle(shotSequence);
+    // var shots = shotSequence.map(function(pos) { return new Shot({position: pos}); });
+    // this.set('cpuShots', new ShotSet(shots));
   },
 
-  waitingForPlayer: function() {
-    return this.get('waiting');
-  },
-
-  startGame: function() {
+  startPlaying: function() {
     if (this.get('state') == 'setup')
       this.set('state', 'playing');
     else
-      alert("Not in setup mode, so can't start game");
+      alert("Not in setup mode, so can't start playing");
   },
 
-  endGame: function(winner) {
+  endPlaying: function(winner) {
     if (this.get('state') == 'playing') {
-      this.set('state', 'end');
-      this.set('winner', winner);
+      this.set('state', 'setup');
     }
     else
-      alert("Not playing, so can't end game");
-  },
-
-  nextTurn: function() {
-    if (this.get('state') == 'playing') {
-      this.set('turn', this.isPlayerTurn() ? "cpu" : "player");
-      // At beginning of CPU turn, generate shot
-      // At beginning of Player turn, waiting for player to fire
-      this.set('waiting', this.isPlayerTurn());
-    }
-  },
-
-  isCpuTurn: function() {
-    return this.get('turn') == 'cpu';
-  },
-
-  isPlayerTurn: function() {
-    return this.get('turn') == 'player';
-  },
-
-  getCpuShot: function() {
-    return this.get('cpuShots').shift();
-  },
-
-  getTurnHTML: function() {
-    var turnName = this.isPlayerTurn() ? "your" : "CPU";
-    var boardName = this.isPlayerTurn() ? "CPU" : "your";
-
-    return "<h3>"+turnName+" turn<h3><h3 style='color: #7CD3A2;'>"+boardName+" board <span class='glyphicon glyphicon-arrow-right'></span></h3>";
-  },
-});
-
-var Shot = Backbone.Model.extend({
-  defaults: {
-    position: {row: 0, col: 0},
-    isHit: false
+      alert("Not playing, so can't end playing");
   }
 });
-var ShotSet = Backbone.Collection.extend({model: Shot});
 
-var Ship = Backbone.Model.extend({
+var Hit = Backbone.Model.extend({
   defaults: {
-    length: 0,
-    isDeployed: false,
+    position: {row: 0, col: 0},
+  }
+});
+var HitSet = Backbone.Collection.extend({model: Hit});
+
+var Stick = Backbone.Model.extend({
+  defaults: {
     position: {row: 0, col: 0},
     screenPosition: [0, 0],
     startPosition: [0, 0],
     screenRotation: 0,
     isVertical: false,
-    health: 0
   },
 
   initialize: function() {
-    this.set("health", this.get("length"));
+
   },
 
   setScreenPosition: function(position) {
@@ -165,116 +127,64 @@ var Ship = Backbone.Model.extend({
             && a.end.col >= b.start.col);
   }
 });
-var ShipSet = Backbone.Collection.extend({model: Ship});
+var StickSet = Backbone.Collection.extend({model: Stick});
 
-var Board = Backbone.Model.extend({
-  initialize: function() {
-    this.set('shots', new ShotSet());
+// var Board = Backbone.Model.extend({
+//   initialize: function() {
+//     this.set('hits', new HitSet());
 
-    var ships = new ShipSet();
-    var shipLengths = {
-      battleship: 3,
-      //destroyer: 3,
-      patrolBoat: 2
-    };
+//     var sticks = new StickSet();
 
-    Object.keys(shipLengths).forEach(function(shipType, i) {
-      var ship = new Ship({
-        type: shipType,
-        length: shipLengths[shipType],
-        screenPosition: [0, (i+1)*100],
-        startPosition: [0, (i+1)*100],
-      });
-      ships.add(ship);
-    });
-    this.set('ships', ships);
+//     forEach(function(shipType, i) {
+//       var stick = new Stick({
+//         type: stickType,
+//         screenPosition: [0, (i+1)*100],
+//         startPosition: [0, (i+1)*100],
+//       });
+//       sticks.add(stick);
+//     });
+//     this.set('sticks', sticks);
+//   },
 
-    if (this.get('autoDeploy'))
-      this.autoDeploy();
-  },
+//   deployStick: function(stick) {
+//     if (this.outOfBounds(stick))
+//       return false;
 
-  deployShip: function(ship) {
-    if (this.outOfBounds(ship))
-      return false;
+//     var overlap = false;
+//     this.get('stick').forEach(function(otherStick) {
+//       if (stick.get('type') != otherStick.get('type') && stick.get('isDeployed'))
+//         overlap = otherStick.overlaps(stick);
+//     });
 
-    var overlap = false;
-    this.get('ships').forEach(function(otherShip) {
-      if (ship.get('type') != otherShip.get('type') && ship.get('isDeployed'))
-        overlap = otherShip.overlaps(ship);
-    });
+//     // No overlaps and not out of bounds, so deploy
+//     if (! overlap)
+//       stick.set("isDeployed", true);
 
-    // No overlaps and not out of bounds, so deploy
-    if (! overlap)
-      ship.set("isDeployed", true);
+//     return !overlap;
+//   },
 
-    return !overlap;
-  },
+//   outOfBounds: function(stick) {
+//     var endpoints = stick.getEndpoints();
+//     var start = endpoints.start;
+//     var end = endpoints.end;
+//     return (start.row < 0 || start.row >= NUMTILES
+//       || start.col < 0 || start.col >= NUMTILES
+//       || end.row < 0 || end.row >= NUMTILES
+//       || end.col < 0 || end.col >= NUMTILES);
+//   },
 
-  outOfBounds: function(ship) {
-    var endpoints = ship.getEndpoints();
-    var start = endpoints.start;
-    var end = endpoints.end;
-    return (start.row < 0 || start.row >= NUMTILES
-      || start.col < 0 || start.col >= NUMTILES
-      || end.row < 0 || end.row >= NUMTILES
-      || end.col < 0 || end.col >= NUMTILES);
-  },
+//   resetBoard: function() {
+//     this.initialize();
+//   },
 
-  autoDeploy: function() {
-    var self = this;
-    var offset = this.get('name') == 'cpu' ? 1 : 0;
-    this.get('ships').forEach(function(ship, i) {
-      if (! ship.get('isDeployed')) {
-        ship.set('position', {row: 2*i + offset, col: 0});
-        ship.set('isDeployed', true);
-      }
-    });
-  },
+//   registerHit: function(hit) {
+//     var position = hit.get('position');
 
-  resetBoard: function() {
-    this.initialize();
-  },
+//     var hitStatus = true;
+//     var result = {hit: hit};
+    
+//     this.get('hits').add(hit);
 
-  fireShot: function(shot) {
-    var position = shot.get('position');
-
-    var shotStatus = true;
-    // Check if already shot here
-    this.get('shots').forEach(function(shot) {
-      var otherPosition = shot.get('position');
-      if (otherPosition.row == position.row && otherPosition.col == position.col)
-        shotStatus = false;
-    });
-    if (! shotStatus)
-      return false;
-
-    // Otherwise, see if it's a hit
-    var isGameOver = true;
-    var sunkShip = null;
-    this.get('ships').forEach(function(ship) {
-      var endpoints = ship.getEndpoints();
-      if (endpoints.start.row <= position.row
-            && endpoints.end.row >= position.row
-            && endpoints.start.col <= position.col
-            && endpoints.end.col >= position.col) {
-
-        ship.set('health', ship.get('health') - 1);
-        if (ship.get('health') == 0)
-          sunkShip = ship;
-
-        shot.set('isHit', true);
-      }
-
-      if (ship.get('health') > 0)
-      isGameOver = false;
-    });
-
-    var result = {shot: shot, isGameOver: isGameOver};
-    if (sunkShip != null)
-      result.sunkShip = sunkShip;
-
-    this.get('shots').add(shot);
-
-    return result;
-  }
-});
+//     return result;
+//   }
+// });

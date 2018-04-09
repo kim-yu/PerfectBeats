@@ -13,10 +13,8 @@ var COLNAMES = ["1", "2", "3", "4", "5", "6", "7", "8"];
 var BOARDSIZE = 550;
 var NUMTILES = 5;
 var TILESIZE = Math.ceil(BOARDSIZE / NUMTILES);
+var SNARESIZE = 110;
 var CURSORSIZE = 20;
-var TURNDELAY = 100; // 2500;
 
-var VOICEINDEX = 17; // UK British Female
 var LEAPSCALE = 0.6;
-var DEBUGSPEECH = true;
 var SKIPSETUP = false;

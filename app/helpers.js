@@ -1,38 +1,21 @@
-
-// SPEECH SYNTHESIS SETUP
-var voicesReady = false;
-window.speechSynthesis.onvoiceschanged = function() {
-  voicesReady = true;
-  // Uncomment to see a list of voices
-  //console.log("Choose a voice:\n" + window.speechSynthesis.getVoices().map(function(v,i) { return i + ": " + v.name; }).join("\n"));
-};
-
-var generateSpeech = function(message, callback) {
-  if (voicesReady) {
-    var msg = new SpeechSynthesisUtterance();
-    msg.voice = window.speechSynthesis.getVoices()[VOICEINDEX];
-    msg.text = message;
-    msg.rate = 0.2;
-    if (typeof callback !== "undefined")
-      msg.onend = callback;
-    speechSynthesis.speak(msg);
-  }
-};
-
-// getIntersectingTile(screenPosition)
-//    Returns the tile enclosing the input screen position
+// getIntersectingDrum(screenPosition)
+//    Returns the drum enclosing the input screen position
 // Input:
 //    screenPosition = [x,y]
 // Output:
-//    tilePosition = {row: r, col: c}, if intersecting the board
+//    drum = object, if intersecting the board
 //    false, if not intersecting the board
-var getIntersectingTile = function(screenPosition) {
+var getIntersectingDrum = function(screenPosition) {
   if (screenPosition[0] >= gridOrigin[0] && screenPosition[0] <= gridOrigin[0] + BOARDSIZE
     && screenPosition[1] >= gridOrigin[1] && screenPosition[1] <= gridOrigin[1] + BOARDSIZE) {
-    var column = Math.floor((screenPosition[0] - gridOrigin[0]) / TILESIZE);
-    var row = Math.floor((screenPosition[1] - gridOrigin[1]) / TILESIZE);
-    var tile = tiles[row*NUMTILES + column];
-    return {row: row, col: column};
+    if (screenPosition[0] >= gridOrigin[0] + BOARDSIZE/2 && screenPosition[0] <= gridOrigin[0] + BOARDSIZE/2 + SNARESIZE
+      && screenPosition[1] >= gridOrigin[1] + BOARDSIZE/2 && screenPosition[1] <= gridOrigin[1] + BOARDSIZE/2 + SNARESIZE) {
+      var drum = drums['snare1'];
+      return drum;
+    }
+    else {
+      return false;
+    }
   }
   else {
     return false;
@@ -83,12 +66,13 @@ var getIntersectingShipAndOffset = function(screenPosition) {
   }
 }
 
-// unhighlightTiles()
-//    Clears all highlighting from the tiles
-var unhighlightTiles = function() {
-  tiles.forEach(function(tile) {
-    tile.setProperties({backgroundColor: Colors.GREY});
-  });
+// clearDrums()
+//    Clears all highlighting from the drums
+var clearDrums = function() {
+  for (type in drums) {
+    drum = drums[type];
+    drum.surface.setProperties({backgroundColor: Colors.GREY});
+  };
 };
 
 // highlightTile(position, color)
@@ -96,18 +80,12 @@ var unhighlightTiles = function() {
 // Input:
 //    position = {row: r, col: c}, tilePosition
 //    color = color hex code (see Colors at top of file)
-snare1Played = false;
-var highlightTile = function(position, color) {
-  if (position.row*NUMTILES + position.col == Math.floor(tiles.length/2)) {
-    tiles[position.row*NUMTILES + position.col].setProperties({backgroundColor: color});
-    if (!snare1Played) {
-      document.getElementById('snare1').play();
-      snare1Played = true;
-    } 
-    // document.getElementById('snare1').pause();
-  } else {
-    snare1Played = false;
-  }
+var registerHit = function(drum, color) {
+  drum.surface.setProperties({backgroundColor: color});
+  if (!drum.played) {
+    document.getElementById(drum.type).play();
+    drum.played = true;
+  } 
 };
 
 // unblinkTiles()
