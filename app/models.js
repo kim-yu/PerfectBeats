@@ -1,10 +1,25 @@
 var Cursor = Backbone.Model.extend({
   defaults: {
-    screenPosition: [0, 0]
+    screenPosition: [0, 0],
+    screenRotation: 0
   },
   setScreenPosition: function(position) {
     this.set('screenPosition', position.slice(0));
-  }
+  },
+  // setScreenRotation: function(rotation) {
+  //   this.set('screenRotation', rotation);
+  // }
+
+  setScreenRotation: function(rotation) {
+    console.log(rotation);
+    if (rotation < 0) {
+      this.set('screenRotation', 0)
+    } else if (rotation > 1.5708) {
+      this.set('screenRotation', 1.5708);
+    } else {
+      this.set('screenRotation', rotation);
+    }
+  },
 });
 
 // function shuffle(o){ //v1.0

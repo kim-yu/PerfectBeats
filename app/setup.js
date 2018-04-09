@@ -35,6 +35,7 @@ var setupUserInterface = function() {
       backgroundColor: Colors.GREY,
       color: "white",
       border: "solid 1px black"
+      // borderRadius: SNARESIZE/2 + 'px'
     }
   });
   var snareTransformModifier = new StateModifier({
@@ -138,13 +139,22 @@ var setupUserInterface = function() {
     },
     content: '<img id="cursor-img" src="img/blueDot.png" height="25">'
   });
-  var cursorOriginModifier = new StateModifier({origin: [0.5, 0.5]});
-  var cursorModifier = new Modifier({
+  // var cursorOriginModifier = new StateModifier({origin: [0.5, 0.5]});
+  var cursorTranslateModifier = new Modifier({
     transform : function(){
       var cursorPosition = this.get('screenPosition');
       return Transform.translate(cursorPosition[0], cursorPosition[1], 0);
     }.bind(cursor)
   });
-  mainContext.add(cursorOriginModifier).add(cursorModifier).add(cursorSurface);
+
+  var cursorRotateModifier = new Modifier({
+    origin: [0, 0],
+    transform : function(){
+      var cursorRotation = this.get('screenRotation');
+      return Transform.rotateZ(cursorRotation);
+    }.bind(cursor)
+  });
+
+  mainContext.add(cursorTranslateModifier).add(cursorRotateModifier).add(cursorSurface);
 
 };
