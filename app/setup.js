@@ -12,7 +12,7 @@ var tiles = [];
 var drums = new Object();
 var tileModifiers = [];
 drumModifiers = [];
-var gridOrigin = [350, 35];
+var gridOrigin = [265, 35];
 
 var background;
 
@@ -23,7 +23,8 @@ var setupUserInterface = function() {
     content: "<h1>PerfectBeats</h1>",
     properties: {
       backgroundColor: "rgb(34, 34, 34)",
-      color: "white"
+      color: "white",
+      textAlign: "center"
     }
   });
   mainContext.add(background);
