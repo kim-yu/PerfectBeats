@@ -48,89 +48,9 @@ var setupUserInterface = function() {
   mainContext.add(snareTransformModifier).add(snareModifier).add(snare1);
   drums['snare1'] = { surface: snare1, type: 'snare1', played: false };
   drumModifiers.push(snareModifier);
-  // for (var row = 0; row < NUMTILES; row++) {
-  //   for (var col = 0; col < NUMTILES; col++) {
-  //     var tile = new Surface({
-  //         size: [TILESIZE, TILESIZE],
-  //         properties: {
-  //             backgroundColor: Colors.GREY,
-  //             color: "white",
-  //             border: "solid 1px black"
-  //         },
-  //     });
-  //     var transformModifier = new StateModifier({
-  //       transform: Transform.translate(gridOrigin[0] + col*TILESIZE, gridOrigin[1] + row*TILESIZE, 0)
-  //     });
-  //     var tileModifier = new Modifier({
-  //       opacity: 1.0
-  //     });
-  //     mainContext.add(transformModifier).add(tileModifier).add(tile);
-  //     tiles.push(tile);
-  //     tileModifiers.push(tileModifier);
-  //   }
-  // }
-  // ROWNAMES.slice(0,NUMTILES).forEach(function(rowName, row) {
-  //   var label = new Surface({
-  //       content: rowName,
-  //       size: [TILESIZE, TILESIZE],
-  //       properties: {
-  //         textAlign: "center",
-  //         color: "white",
-  //         lineHeight: TILESIZE / 15
-  //       },
-  //   });
-  //   var labelModifier = new StateModifier({
-  //     transform: Transform.translate(gridOrigin[0] - 80, gridOrigin[1] + row*TILESIZE, 0)
-  //   });
-  //   mainContext.add(labelModifier).add(label);
-  // });
-  // COLNAMES.slice(0,NUMTILES).forEach(function(colName, col) {
-  //   var label = new Surface({
-  //       content: colName,
-  //       size: [TILESIZE, TILESIZE],
-  //       properties: {
-  //         textAlign: "center",
-  //         color: "white"
-  //       },
-  //   });
-  //   var labelModifier = new StateModifier({
-  //     transform: Transform.translate(gridOrigin[0] + col*TILESIZE, gridOrigin[1] - 25, 0)
-  //   });
-  //   mainContext.add(labelModifier).add(label);
-  // });
-
-  // // Draw the player ships
-  // playerBoard.get('ships').forEach(function(ship) {
-  //   var shipView = new ImageSurface({
-  //       size: [ship.get('length') * TILESIZE, TILESIZE],
-  //       content: 'img/' + ship.get('type') + '.png',
-  //   });
-  //   var shipTranslateModifier = new Modifier({
-  //     transform : function(){
-  //       var shipPosition = this.get('screenPosition').slice(0);
-  //       if (this.get('isVertical')) {
-  //         shipPosition[0] += TILESIZE / 2;
-  //         shipPosition[1] += ship.get('length') * TILESIZE/2;
-  //       } else {
-  //         shipPosition[1] += TILESIZE / 2;
-  //         shipPosition[0] += ship.get('length') * TILESIZE/2;
-  //       }
-  //       return Transform.translate(shipPosition[0], shipPosition[1], 0);
-  //     }.bind(ship)
-  //   });
-  //   var shipRotateModifier = new Modifier({
-  //     origin: [0.5, 0.5],
-  //     transform : function(){
-  //       var shipRotation = this.get('screenRotation');
-  //       return Transform.rotateZ(shipRotation);
-  //     }.bind(ship)
-  //   });
-  //   mainContext.add(shipTranslateModifier).add(shipRotateModifier).add(shipView);
-  //   ship.set('view', shipView);
-  // });
 
   // Draw the cursor
-  var cursorSurface = new Surface({
+  var leftCursorSurface = new Surface({
     size : [CURSORSIZE, CURSORSIZE],
     properties : {
         background: 'none',
@@ -138,24 +58,50 @@ var setupUserInterface = function() {
         pointerEvents : 'none',
         zIndex: 1
     },
-    content: '<img id="cursor-img" src="img/blueDot.png" height="25">'
+    content: '<img id="left-cursor-img" src="img/blueDot.png" height="25">'
   });
   // var cursorOriginModifier = new StateModifier({origin: [0.5, 0.5]});
-  var cursorTranslateModifier = new Modifier({
+  var leftCursorTranslateModifier = new Modifier({
     transform : function(){
       var cursorPosition = this.get('screenPosition');
       return Transform.translate(cursorPosition[0], cursorPosition[1], 0);
-    }.bind(cursor)
+    }.bind(leftCursor)
   });
 
-  var cursorRotateModifier = new Modifier({
+  var leftCursorRotateModifier = new Modifier({
     origin: [0, 0],
     transform : function(){
       var cursorRotation = this.get('screenRotation');
       return Transform.rotateZ(cursorRotation);
-    }.bind(cursor)
+    }.bind(leftCursor)
   });
 
-  mainContext.add(cursorTranslateModifier).add(cursorRotateModifier).add(cursorSurface);
+  var rightCursorSurface = new Surface({
+    size : [CURSORSIZE, CURSORSIZE],
+    properties : {
+        background: 'none',
+        borderRadius: CURSORSIZE/2 + 'px',
+        pointerEvents : 'none',
+        zIndex: 1
+    },
+    content: '<img id="right-cursor-img" src="img/blueDot.png" height="25">'
+  });
 
+  var rightCursorTranslateModifier = new Modifier({
+    transform : function(){
+      var cursorPosition = this.get('screenPosition');
+      return Transform.translate(cursorPosition[0], cursorPosition[1], 0);
+    }.bind(rightCursor)
+  });
+
+  var rightCursorRotateModifier = new Modifier({
+    origin: [0, 0],
+    transform : function(){
+      var cursorRotation = this.get('screenRotation');
+      return Transform.rotateZ(cursorRotation);
+    }.bind(rightCursor)
+  });
+
+  mainContext.add(leftCursorTranslateModifier).add(leftCursorRotateModifier).add(leftCursorSurface);
+  mainContext.add(rightCursorTranslateModifier).add(rightCursorRotateModifier).add(rightCursorSurface);
 };
