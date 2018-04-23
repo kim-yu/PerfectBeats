@@ -84,7 +84,7 @@ var setupUserInterface = function() {
         pointerEvents : 'none',
         zIndex: 1
     },
-    content: '<img id="right-cursor-img" src="img/blueDot.png" height="25">'
+    content: '<img id="right-cursor-img" src="img/purpleDot.png" height="25">'
   });
 
   var rightCursorTranslateModifier = new Modifier({
