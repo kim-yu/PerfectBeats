@@ -29,7 +29,7 @@ var Cursor = Backbone.Model.extend({
 
 var State = Backbone.Model.extend({
   defaults: {
-    state: "setup", // setup, playing, recording, playback
+    state: "playing", // setup, playing, recording, playback
     boards: [],
     waiting: true
   },
@@ -45,21 +45,6 @@ var State = Backbone.Model.extend({
     // shuffle(shotSequence);
     // var shots = shotSequence.map(function(pos) { return new Shot({position: pos}); });
     // this.set('cpuShots', new ShotSet(shots));
-  },
-
-  startPlaying: function() {
-    if (this.get('state') == 'setup')
-      this.set('state', 'playing');
-    else
-      alert("Not in setup mode, so can't start playing");
-  },
-
-  endPlaying: function(winner) {
-    if (this.get('state') == 'playing') {
-      this.set('state', 'setup');
-    }
-    else
-      alert("Not playing, so can't end playing");
   }
 });
 
