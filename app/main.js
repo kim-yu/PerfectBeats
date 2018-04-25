@@ -19,15 +19,12 @@ var rightHand = null;
 // MAIN GAME LOOP
 // Called every time the Leap provides a new frame of data
 Leap.loop({ frame: function(frame) {
-  console.log(frame.hands);
   if (frame.hands.length > 0) {
     // Clear any highlighting at the beginning of the loop
     clearDrums();
     for (var h=0; h < frame.hands.length; h++) {
       hand = frame.hands[h];
-      console.log('left', hand.isLeft);
-      console.log('right', hand.isRight);
-      if (hand.isLeft) {
+      if (hand.type == 'left') {
         leftHand = hand;
       } else {
         rightHand = hand;
@@ -39,19 +36,19 @@ Leap.loop({ frame: function(frame) {
         var leftCursorPosition = [leftHand.screenPosition()[0]+50, leftHand.screenPosition()[1]+300];
         leftCursor.setScreenPosition(leftCursorPosition);
 
-        leftSelectedDrum = getIntersectingDrum(leftCursorPosition);
+        var leftPalmVelocity = leftHand.palmVelocity;
 
-        background.setContent("<h1>PerfectBeats</h1>");
+        leftSelectedDrum = getIntersectingDrum(leftCursorPosition, leftPalmVelocity);
+
+        // background.setContent("<h1>PerfectBeats</h1>");
         //  Enable the player to grab, move, and rotate the drum stick
 
-        if (state.get('state') == 'playing') {
-          if (leftSelectedDrum != false) {
-            registerHit(leftSelectedDrum, Colors.YELLOW);
-            leftMostRecentDrum = leftSelectedDrum;
-          } else {
-            leftMostRecentDrum.played = false;
-            leftSelectedDrum.played = false;
-          }
+        if (leftSelectedDrum != false) {
+          // registerHit(leftSelectedDrum, Colors.YELLOW);
+          leftMostRecentDrum = leftSelectedDrum;
+        } else {
+          leftMostRecentDrum.played = false;
+          leftSelectedDrum.played = false;
         }
       }
 
@@ -61,17 +58,17 @@ Leap.loop({ frame: function(frame) {
         var rightCursorPosition = [rightHand.screenPosition()[0]+50, rightHand.screenPosition()[1]+300];
         rightCursor.setScreenPosition(rightCursorPosition);
 
-        rightSelectedDrum = getIntersectingDrum(rightCursorPosition);
+        var rightPalmVelocity = rightHand.palmVelocity;
+
+        rightSelectedDrum = getIntersectingDrum(rightCursorPosition, rightPalmVelocity);
 
         //  Enable the player to grab, move, and rotate the drum stick
-      if (state.get('state') == 'playing') {
-          if (rightSelectedDrum != false) {
-            registerHit(rightSelectedDrum, Colors.YELLOW);
-            rightMostRecentDrum = rightSelectedDrum;
-          } else {
-            rightMostRecentDrum.played = false;
-            rightSelectedDrum.played = false;
-          }
+        if (rightSelectedDrum != false) {
+          // registerHit(rightSelectedDrum, Colors.YELLOW);
+          rightMostRecentDrum = rightSelectedDrum;
+        } else {
+          rightMostRecentDrum.played = false;
+          rightSelectedDrum.played = false;
         }
       }
 
