@@ -11,12 +11,13 @@ var GridLayout = famous.views.GridLayout;
 var tiles = [];
 var drums = new Object();
 var tileModifiers = [];
-drumModifiers = [];
-var gridOrigin = [265, 35];
+var drumModifiers = [];
+var gridOrigin = [$(window).width() / 2, $(window).height() / 2];
 
 var background;
 var rightCursorSurface;
 var leftCursorSurface;
+var distanceBetween = 150;
 
 // USER INTERFACE SETUP
 var setupUserInterface = function() {
@@ -32,24 +33,41 @@ var setupUserInterface = function() {
   mainContext.add(background);
 
   // Draw the drums
-  var snare1 = new Surface({
-    size: [SNARESIZE, SNARESIZE],
+  var bongo1 = new Surface({
+    size: [BONGOSIZE1, BONGOSIZE1],
     properties: {
       backgroundColor: Colors.GREY,
       color: "white",
-      border: "solid 1px black"
-      // borderRadius: SNARESIZE/2 + 'px'
-    }
+      border: "solid 1px black",
+      borderRadius: BONGOSIZE1/2 + 'px'
+    },
+    content: '<img id="left-cursor-img" src="img/bongo-top.png" height="'+BONGOSIZE1+'">'
   });
-  var snareTransformModifier = new StateModifier({
-    transform: Transform.translate(gridOrigin[0] + BOARDSIZE/2, gridOrigin[1] + BOARDSIZE/2, 0)
+  var bongo1TransformModifier = new StateModifier({
+    transform: Transform.translate(gridOrigin[0]+distanceBetween/2, gridOrigin[1] - BONGOSIZE1/2, 0)
   });
-  var snareModifier = new Modifier({
-    opacity: 1.0
+
+  var bongo2 = new Surface({
+    size: [BONGOSIZE2, BONGOSIZE2],
+    properties: {
+      backgroundColor: Colors.GREY,
+      color: "white",
+      border: "solid 1px black",
+      borderRadius: BONGOSIZE2/2 + 'px'
+    },
+    content: '<img id="left-cursor-img" src="img/bongo-top.png" height="'+BONGOSIZE2+'">'
   });
-  mainContext.add(snareTransformModifier).add(snareModifier).add(snare1);
-  drums['snare1'] = { surface: snare1, type: 'snare1', played: false };
-  drumModifiers.push(snareModifier);
+  var bongo2TransformModifier = new StateModifier({
+    transform: Transform.translate(gridOrigin[0] - BONGOSIZE2 - distanceBetween/2, gridOrigin[1] - BONGOSIZE2/2, 0)
+  });  
+  // var bongoModifier = new Modifier({
+  //   opacity: 1.0
+  // });
+  mainContext.add(bongo1TransformModifier).add(bongo1);
+  mainContext.add(bongo2TransformModifier).add(bongo2);
+  drums['bongo1'] = { surface: bongo1, type: 'bongo-low', played: false, radius: BONGOSIZE1/2, centerX: gridOrigin[0]+BONGOSIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
+  drums['bongo2'] = { surface: bongo2, type: 'bongo-high', played: false, radius: BONGOSIZE2/2, centerX: gridOrigin[0]-BONGOSIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
+  // drumModifiers.push(snareModifier);
 
   // Draw the cursor
   leftCursorSurface = new Surface({

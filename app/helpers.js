@@ -5,29 +5,69 @@
 // Output:
 //    drum = object, if intersecting the board
 //    false, if not intersecting the board
-var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor) {
+var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor, isLeft) {
   console.log(palmVelocity[1]);
   if (palmVelocity[1] < 0 && Math.abs(palmVelocity[1]) > 200) { // && Math.abs(palmVelocity[0]) < 5 && Math.abs(palmVelocity[2]) < 5
-    if (screenPosition[0] >= gridOrigin[0] && screenPosition[0] <= gridOrigin[0] + BOARDSIZE
-      && screenPosition[1] >= gridOrigin[1] && screenPosition[1] <= gridOrigin[1] + BOARDSIZE) {
-      if (screenPosition[0] >= gridOrigin[0] + BOARDSIZE/2 && screenPosition[0] <= gridOrigin[0] + BOARDSIZE/2 + SNARESIZE
-        && screenPosition[1] >= gridOrigin[1] + BOARDSIZE/2 && screenPosition[1] <= gridOrigin[1] + BOARDSIZE/2 + SNARESIZE) {
-        handCursor.setProperties({'background': 'white'});
-        var drum = drums['snare1'];
-        return drum;
+    // if hit the bongo1 drum
+    var screenX = screenPosition[0];
+    var screenY = screenPosition[1];
+    console.log("cursor: "+screenX+" "+ screenY);
+    console.log("bongo1: "+drums['bongo1']['centerX']+" "+ drums['bongo1']['centerY'])
+    console.log("distance: "+ getDistance([screenX, screenY], [drums['bongo1']['centerX'], drums['bongo1']['centerY']]))
+    if (getDistance([screenX, screenY], [drums['bongo1']['centerX'], drums['bongo1']['centerY']]) <= BONGOSIZE1/2) {
+      if (isLeft) {
+        handCursor.setProperties({'background': 'lightblue'});
+      } else {
+        handCursor.setProperties({'background': 'pink'});
       }
-      else {
-        return false;
-      }
+      var drum = drums['bongo1'];
+      console.log(drum);
+      return drum;
     }
+
+    // if hit bongo2 drum
+    else if (getDistance([screenX, screenY], [drums['bongo2']['centerX'], drums['bongo2']['centerY']]) <= BONGOSIZE2/2) {
+      if (isLeft) {
+        handCursor.setProperties({'background': 'lightblue'});
+      } else {
+        handCursor.setProperties({'background': 'pink'});
+      }
+      var drum = drums['bongo2'];
+      return drum;
+    }
+
     else {
       return false;
     }
+
+
+    // if (screenPosition[0] >= gridOrigin[0] && screenPosition[0] <= gridOrigin[0] + BOARDSIZE
+    //   && screenPosition[1] >= gridOrigin[1] && screenPosition[1] <= gridOrigin[1] + BOARDSIZE) {
+    //   if (screenPosition[0] >= gridOrigin[0] + BOARDSIZE/2 && screenPosition[0] <= gridOrigin[0] + BOARDSIZE/2 + SNARESIZE
+    //     && screenPosition[1] >= gridOrigin[1] + BOARDSIZE/2 && screenPosition[1] <= gridOrigin[1] + BOARDSIZE/2 + SNARESIZE) {
+    //     handCursor.setProperties({'background': 'white'});
+    //     var drum = drums['snare1'];
+    //     return drum;
+    //   }
+    //   else {
+    //     return false;
+    //   }
+    // }
+    // else {
+    //   return false;
+    // }
+
+
   }
   else {
     return false;
   }
 };
+
+// gets Distance between two center points
+var getDistance = function(point1, point2) {
+  return Math.sqrt(Math.pow(point2[1] - point1[1], 2) + Math.pow(point2[0] - point1[0], 2))
+}
 
 // getIntersectingShipAndOffset(screenPosition)
 //    Returns the ship enclosing the input screen position

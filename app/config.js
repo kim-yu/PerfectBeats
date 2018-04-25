@@ -12,7 +12,8 @@ var COLNAMES = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
 var BOARDSIZE = 550;
 var NUMTILES = 5;
-var SNARESIZE = 200;
+var BONGOSIZE1 = 400;
+var BONGOSIZE2 = 350;
 var CURSORSIZE = 20;
 
 var LEAPSCALE = 0.6;
