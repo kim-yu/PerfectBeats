@@ -1,3 +1,23 @@
+// SPEECH SYNTHESIS SETUP
+var voicesReady = false;
+window.speechSynthesis.onvoiceschanged = function() {
+  voicesReady = true;
+  // Uncomment to see a list of voices
+  //console.log("Choose a voice:\n" + window.speechSynthesis.getVoices().map(function(v,i) { return i + ": " + v.name; }).join("\n"));
+};
+
+var generateSpeech = function(message, callback) {
+  if (voicesReady) {
+    var msg = new SpeechSynthesisUtterance();
+    msg.voice = window.speechSynthesis.getVoices()[VOICEINDEX];
+    msg.text = message;
+    msg.rate = 0.2;
+    if (typeof callback !== "undefined")
+      msg.onend = callback;
+    speechSynthesis.speak(msg);
+  }
+};
+
 // getIntersectingDrum(screenPosition)
 //    Returns the drum enclosing the input screen position
 // Input:
@@ -6,7 +26,6 @@
 //    drum = object, if intersecting the board
 //    false, if not intersecting the board
 var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor) {
-  console.log(palmVelocity[1]);
   if (palmVelocity[1] < 0 && Math.abs(palmVelocity[1]) > 200) { // && Math.abs(palmVelocity[0]) < 5 && Math.abs(palmVelocity[2]) < 5
     if (screenPosition[0] >= gridOrigin[0] && screenPosition[0] <= gridOrigin[0] + BOARDSIZE
       && screenPosition[1] >= gridOrigin[1] && screenPosition[1] <= gridOrigin[1] + BOARDSIZE) {
@@ -92,7 +111,10 @@ var registerHit = function(drum, color) {
   if (!drum.played) {
     document.getElementById(drum.type).play();
     drum.played = true;
-  } 
+    return true;
+  } else {
+    return false;
+  }
 };
 
 // unblinkTiles()

@@ -17,6 +17,7 @@ var gridOrigin = [265, 35];
 var background;
 var rightCursorSurface;
 var leftCursorSurface;
+var otherFeedback;
 
 // USER INTERFACE SETUP
 var setupUserInterface = function() {
@@ -113,4 +114,18 @@ var setupUserInterface = function() {
 
   mainContext.add(leftCursorTranslateModifier).add(leftCursorRotateModifier).add(leftCursorSurface);
   mainContext.add(rightCursorTranslateModifier).add(rightCursorRotateModifier).add(rightCursorSurface);
+
+  otherFeedback = new Surface({
+    content: "",
+    size: [undefined, 50],
+    properties: {
+      backgroundColor: "rgb(34, 34, 34)",
+      color: "white"
+    }
+  });
+  var otherModifier = new StateModifier({
+    origin: [0.0, 1.0],
+    align: [0.0, 1.0]
+  })
+  mainContext.add(otherModifier).add(otherFeedback);
 };

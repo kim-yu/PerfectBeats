@@ -1,5 +1,5 @@
 // GAME SETUP
-var initialState = SKIPSETUP ? "playing" : "setup";
+var initialState = "playing";
 var state = new State({state: initialState});
 var leftCursor = new Cursor();
 var rightCursor = new Cursor();
@@ -19,6 +19,7 @@ var rightHand = null;
 var maxCursorSize = 100;
 
 var hitHeight = 50;
+var hitSequence = [];
 
 // MAIN GAME LOOP
 // Called every time the Leap provides a new frame of data
@@ -55,15 +56,15 @@ Leap.loop({ frame: function(frame) {
           // console.log(leftCursorSurface.getProperties());
         }
 
-        
-
-        
-
-        // background.setContent("<h1>PerfectBeats</h1>");
         //  Enable the player to grab, move, and rotate the drum stick
 
         if (leftSelectedDrum != false) {
-          registerHit(leftSelectedDrum, Colors.YELLOW);
+          var leftHit = registerHit(leftSelectedDrum, Colors.YELLOW);
+          if (state.get('state') == 'recording') {
+            if (leftHit) {
+              hitSequence.push(leftSelectedDrum);
+            }
+          }
           leftMostRecentDrum = leftSelectedDrum;
         } else {
           leftMostRecentDrum.played = false;
@@ -101,21 +102,56 @@ Leap.loop({ frame: function(frame) {
 
         //  Enable the player to grab, move, and rotate the drum stick
         if (rightSelectedDrum != false) {
-          registerHit(rightSelectedDrum, Colors.YELLOW);
+          var rightHit = registerHit(rightSelectedDrum, Colors.YELLOW);
+          if (state.get('state') == 'recording') {
+            if (rightHit) {
+              hitSequence.push(rightSelectedDrum);
+            }
+          }
           rightMostRecentDrum = rightSelectedDrum;
         } else {
           rightMostRecentDrum.played = false;
           rightSelectedDrum.played = false;
         }
       }
-
-      // RECORDING or PLAYBACK 
-      if (state.get('state') == 'recording') {
-        background.setContent("<h1>PerfectBeats</h1>");
-      }
-      else if (state.get('state') == 'playback') {
-        background.setContent("<h1>PerfectBeatsp</h1>");
-      }
     }
   }
 }}).use('screenPosition', {scale: LEAPSCALE});
+
+// processSpeech(transcript)
+//  Is called anytime speech is recognized by the Web Speech API
+// Input: 
+//    transcript, a string of possibly multiple words that were recognized
+// Output: 
+//    processed, a boolean indicating whether the system reacted to the speech or not
+var processSpeech = function(transcript) {
+  // Helper function to detect if any commands appear in a string
+  var userSaid = function(str, commands) {
+    for (var i = 0; i < commands.length; i++) {
+      if (str.indexOf(commands[i]) > -1)
+        return true;
+    }
+    return false;
+  };
+
+  var processed = false;
+  if (state.get('state') == 'playing') {
+    if (userSaid(transcript, ['record'])) {
+      state.startRecording();
+      hitSequence = [];
+      return true;
+    }
+    else if (userSaid(transcript, ['play'])) {
+      state.startPlayback(hitSequence);
+      return true;
+    }
+  } 
+  else if (state.get('state') == 'recording') {
+    if (userSaid(transcript, ['stop'])) {
+      state.stopRecording(hitSequence);
+      return true;
+    } 
+  }
+
+  return processed;
+};
