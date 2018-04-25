@@ -31,9 +31,6 @@ var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor, isL
     // if hit the bongo1 drum
     var screenX = screenPosition[0];
     var screenY = screenPosition[1];
-    console.log("cursor: "+screenX+" "+ screenY);
-    console.log("bongo1: "+drums['bongo1']['centerX']+" "+ drums['bongo1']['centerY'])
-    console.log("distance: "+ getDistance([screenX, screenY], [drums['bongo1']['centerX'], drums['bongo1']['centerY']]))
     if (getDistance([screenX, screenY], [drums['bongo1']['centerX'], drums['bongo1']['centerY']]) <= BONGOSIZE1/2) {
       if (isLeft) {
         handCursor.setProperties({'background': 'lightblue'});
@@ -41,7 +38,6 @@ var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor, isL
         handCursor.setProperties({'background': 'pink'});
       }
       var drum = drums['bongo1'];
-      console.log(drum);
       return drum;
     }
 
