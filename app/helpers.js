@@ -5,12 +5,14 @@
 // Output:
 //    drum = object, if intersecting the board
 //    false, if not intersecting the board
-var getIntersectingDrum = function(screenPosition, palmVelocity) {
-  if (palmVelocity[1] < 0 && Math.abs(palmVelocity[0]) < 5 && Math.abs(palmVelocity[2]) < 5) {
+var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor) {
+  console.log(palmVelocity[1]);
+  if (palmVelocity[1] < 0 && Math.abs(palmVelocity[1]) > 200) { // && Math.abs(palmVelocity[0]) < 5 && Math.abs(palmVelocity[2]) < 5
     if (screenPosition[0] >= gridOrigin[0] && screenPosition[0] <= gridOrigin[0] + BOARDSIZE
       && screenPosition[1] >= gridOrigin[1] && screenPosition[1] <= gridOrigin[1] + BOARDSIZE) {
       if (screenPosition[0] >= gridOrigin[0] + BOARDSIZE/2 && screenPosition[0] <= gridOrigin[0] + BOARDSIZE/2 + SNARESIZE
         && screenPosition[1] >= gridOrigin[1] + BOARDSIZE/2 && screenPosition[1] <= gridOrigin[1] + BOARDSIZE/2 + SNARESIZE) {
+        handCursor.setProperties({'background': 'white'});
         var drum = drums['snare1'];
         return drum;
       }
