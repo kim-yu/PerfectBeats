@@ -16,7 +16,7 @@ var rightMostRecentDrum = false;
 var leftHand = null;
 var rightHand = null;
 
-var maxCursorSize = 100;
+var maxCursorSize = 150;
 
 var hitHeight = 50;
 var hitSequence = [];
@@ -48,7 +48,7 @@ Leap.loop({ frame: function(frame) {
           leftCursorSurface.setProperties({'borderRadius': hitHeight/2+'px'});//'background': 'lightblue', 
           leftCursorSurface.setSize([hitHeight, hitHeight])
           var leftPalmVelocity = leftHand.palmVelocity;
-          leftSelectedDrum = getIntersectingDrum(leftCursorPosition, leftPalmVelocity, leftCursorSurface);
+          leftSelectedDrum = getIntersectingDrum(leftCursorPosition, leftPalmVelocity, leftCursorSurface, true);
           // console.log(leftCursorSurface.getProperties());
         } else {
           leftCursorSurface.setProperties({'background': 'royalblue', 'borderRadius': leftSize/2+'px'});
@@ -87,7 +87,7 @@ Leap.loop({ frame: function(frame) {
 
           var rightPalmVelocity = rightHand.palmVelocity;
 
-          rightSelectedDrum = getIntersectingDrum(rightCursorPosition, rightPalmVelocity, rightCursorSurface);
+          rightSelectedDrum = getIntersectingDrum(rightCursorPosition, rightPalmVelocity, rightCursorSurface, false);
           // console.log(rightCursorSurface.getProperties());
         } else {
           rightCursorSurface.setProperties({'background': 'purple', 'borderRadius': rightSize/2+'px'});
