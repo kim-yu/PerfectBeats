@@ -10,14 +10,12 @@ var Cursor = Backbone.Model.extend({
 
   setCursorSize: function(size) {
     this.set('cursorSize', size);
-    console.log(size);
   },
   // setScreenRotation: function(rotation) {
   //   this.set('screenRotation', rotation);
   // }
 
   setScreenRotation: function(rotation) {
-    console.log(rotation);
     if (rotation < 0) {
       this.set('screenRotation', 0)
     } else if (rotation > 1.5708) {
@@ -32,6 +30,14 @@ var Cursor = Backbone.Model.extend({
 //   for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
 //   return o;
 // };
+
+playHit = function(drum) {
+  setTimeout(function() {
+    console.log(drum);
+    drum.surface.setProperties({backgroundColor: Colors.YELLOW});
+    document.getElementById(drum.type).play();
+  }, 200);
+}
 
 var State = Backbone.Model.extend({
   defaults: {
@@ -68,11 +74,13 @@ var State = Backbone.Model.extend({
     console.log('playback');
     this.set('state', 'playback');
     for (var i=0; i < hitSequence.length; i++) {
-      var drum = hitSequence[i];
-      console.log(drum);
-      drum.surface.setProperties({backgroundColor: Colors.YELLOW});
-      document.getElementById(drum.type).play();
-      console.log('played');
+      (function(i) {
+        setTimeout(function() {
+          var drum = hitSequence[i];
+          drum.surface.setProperties({backgroundColor: Colors.YELLOW});
+          document.getElementById(drum.type).play();
+        }, i*1000);
+      })(i);
     }
     this.set('state', 'playing');
   }
