@@ -42,11 +42,11 @@ Leap.loop({ frame: function(frame) {
         // console.log(leftSize);
         // $('#left-cursor-img').attr('height', Math.min(Math.abs(1-(leftSize+600)/1200)*maxCursorSize), 100);
         if (leftSize <= 45) {
-          leftCursorSurface.setProperties({'background': 'lightcyan', 'borderRadius': 45/2+'px'});
+          leftCursorSurface.setProperties({'background': 'lightblue', 'borderRadius': 45/2+'px'});
           leftCursorSurface.setSize([45, 45])
           // console.log(leftCursorSurface.getProperties());
         } else {
-          leftCursorSurface.setProperties({'background': 'lightblue', 'borderRadius': leftSize/2+'px'});
+          leftCursorSurface.setProperties({'background': 'royalblue', 'borderRadius': leftSize/2+'px'});
           leftCursorSurface.setSize([leftSize, leftSize])
           // console.log(leftCursorSurface.getProperties());
         }

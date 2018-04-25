@@ -55,7 +55,7 @@ var setupUserInterface = function() {
   leftCursorSurface = new Surface({
     size : [CURSORSIZE, CURSORSIZE],
     properties : {
-        background: 'blue',
+        background: 'royalblue',
         borderRadius: CURSORSIZE/2 + 'px',
         pointerEvents : 'none',
         zIndex: 1
