@@ -21,6 +21,11 @@ var maxCursorSize = 150;
 var hitHeight = 50;
 var hitSequence = [];
 
+function onSelectChange() {
+  var new_drum = document.getElementById("select-drum").value;
+  console.log(new_drum);
+}
+
 // MAIN GAME LOOP
 // Called every time the Leap provides a new frame of data
 Leap.loop({ frame: function(frame) {

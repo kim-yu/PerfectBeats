@@ -61,13 +61,46 @@ var setupUserInterface = function() {
   var bongo2TransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0] - BONGOSIZE2 - distanceBetween/2, gridOrigin[1] - BONGOSIZE2/2, 0)
   });  
+
+  var conga1 = new Surface({
+    size: [CONGASIZE1, CONGASIZE1],
+    properties: {
+      backgroundColor: Colors.GREY,
+      color: "white",
+      border: "solid 1px black",
+      borderRadius: CONGASIZE1/2 + 'px'
+    },
+    content: '<img id="left-cursor-img" src="img/conga-top.png" height="'+CONGASIZE1+'">'
+  });
+  var conga1TransformModifier = new StateModifier({
+    transform: Transform.translate(gridOrigin[0] + distanceBetween/2, gridOrigin[1] - CONGASIZE1/2, 0)
+  }); 
+
+  var conga2 = new Surface({
+    size: [CONGASIZE2, CONGASIZE2],
+    properties: {
+      backgroundColor: Colors.GREY,
+      color: "white",
+      border: "solid 1px black",
+      borderRadius: CONGASIZE2/2 + 'px'
+    },
+    content: '<img id="left-cursor-img" src="img/conga-top.png" height="'+CONGASIZE2+'">'
+  });
+  var conga2TransformModifier = new StateModifier({
+    transform: Transform.translate(gridOrigin[0] - CONGASIZE2 - distanceBetween/2, gridOrigin[1] - CONGASIZE2/2, 0)
+  }); 
   // var bongoModifier = new Modifier({
   //   opacity: 1.0
   // });
   mainContext.add(bongo1TransformModifier).add(bongo1);
   mainContext.add(bongo2TransformModifier).add(bongo2);
+  mainContext.add(conga1TransformModifier).add(conga1);
+  mainContext.add(conga2TransformModifier).add(conga2);
   drums['bongo1'] = { surface: bongo1, type: 'bongo-low', played: false, radius: BONGOSIZE1/2, centerX: gridOrigin[0]+BONGOSIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
   drums['bongo2'] = { surface: bongo2, type: 'bongo-high', played: false, radius: BONGOSIZE2/2, centerX: gridOrigin[0]-BONGOSIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
+  // TODO: Do Change the type and radius to account for the different conga sounds
+  drums['conga1'] = { surface: conga1, type: 'bongo-low', played: false, radius: CONGASIZE1/2, centerX: gridOrigin[0]+CONGASIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
+  drums['conga2'] = { surface: conga2, type: 'bongo-high', played: false, radius: CONGASIZE2/2, centerX: gridOrigin[0]-CONGASIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
   // drumModifiers.push(snareModifier);
 
   // Draw the cursor

@@ -25,7 +25,7 @@ var generateSpeech = function(message, callback) {
 // Output:
 //    drum = object, if intersecting the board
 //    false, if not intersecting the board
-
+// TODO: change function to allow for different parts of the drum to intersect
 var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor, isLeft) {
   if (palmVelocity[1] < 0 && Math.abs(palmVelocity[1]) > 200) { // && Math.abs(palmVelocity[0]) < 5 && Math.abs(palmVelocity[2]) < 5
     // if hit the bongo1 drum
