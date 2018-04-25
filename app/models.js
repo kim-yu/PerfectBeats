@@ -1,10 +1,16 @@
 var Cursor = Backbone.Model.extend({
   defaults: {
     screenPosition: [0, 0],
-    screenRotation: 0
+    screenRotation: 0,
+    cursorSize: 25
   },
   setScreenPosition: function(position) {
     this.set('screenPosition', position.slice(0));
+  },
+
+  setCursorSize: function(size) {
+    this.set('cursorSize', size);
+    console.log(size);
   },
   // setScreenRotation: function(rotation) {
   //   this.set('screenRotation', rotation);

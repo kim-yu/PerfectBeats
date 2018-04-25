@@ -15,6 +15,8 @@ drumModifiers = [];
 var gridOrigin = [265, 35];
 
 var background;
+var rightCursorSurface;
+var leftCursorSurface;
 
 // USER INTERFACE SETUP
 var setupUserInterface = function() {
@@ -50,15 +52,15 @@ var setupUserInterface = function() {
   drumModifiers.push(snareModifier);
 
   // Draw the cursor
-  var leftCursorSurface = new Surface({
+  leftCursorSurface = new Surface({
     size : [CURSORSIZE, CURSORSIZE],
     properties : {
-        background: 'none',
+        background: 'blue',
         borderRadius: CURSORSIZE/2 + 'px',
         pointerEvents : 'none',
         zIndex: 1
     },
-    content: '<img id="left-cursor-img" src="img/blueDot.png" height="25">'
+    // content: '<img id="left-cursor-img" src="img/blueDot.png" height="25">'
   });
   // var cursorOriginModifier = new StateModifier({origin: [0.5, 0.5]});
   var leftCursorTranslateModifier = new Modifier({
@@ -76,15 +78,15 @@ var setupUserInterface = function() {
     }.bind(leftCursor)
   });
 
-  var rightCursorSurface = new Surface({
+  rightCursorSurface = new Surface({
     size : [CURSORSIZE, CURSORSIZE],
     properties : {
-        background: 'none',
+        background: 'purple',
         borderRadius: CURSORSIZE/2 + 'px',
         pointerEvents : 'none',
         zIndex: 1
     },
-    content: '<img id="right-cursor-img" src="img/purpleDot.png" height="25">'
+    // content: '<img id="right-cursor-img" src="img/purpleDot.png" height="25">'
   });
 
   var rightCursorTranslateModifier = new Modifier({
@@ -101,6 +103,13 @@ var setupUserInterface = function() {
       return Transform.rotateZ(cursorRotation);
     }.bind(rightCursor)
   });
+
+  // var rightCursorSizeModifier = new Modifier({
+  //   transform : function() {
+  //     var cursorSize = this.get('cursorSize');
+  //     return Transform.scale(cursorSize, cursorSize, cursorSize);
+  //   }.bind(rightCursor)
+  // });
 
   mainContext.add(leftCursorTranslateModifier).add(leftCursorRotateModifier).add(leftCursorSurface);
   mainContext.add(rightCursorTranslateModifier).add(rightCursorRotateModifier).add(rightCursorSurface);
