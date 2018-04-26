@@ -11,9 +11,6 @@ var Cursor = Backbone.Model.extend({
   setCursorSize: function(size) {
     this.set('cursorSize', size);
   },
-  // setScreenRotation: function(rotation) {
-  //   this.set('screenRotation', rotation);
-  // }
 
   setScreenRotation: function(rotation) {
     if (rotation < 0) {
@@ -25,11 +22,6 @@ var Cursor = Backbone.Model.extend({
     }
   },
 });
-
-// function shuffle(o){ //v1.0
-//   for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-//   return o;
-// };
 
 playHit = function(drum) {
   setTimeout(function() {
@@ -46,49 +38,20 @@ var State = Backbone.Model.extend({
     waiting: true
   },
 
-  initialize: function() {
-    // _.bindAll(this, 'waitingForPlayer', 'nextTurn');
-    // var shotSequence = [];
-    // for (var row = 0; row < NUMTILES; row++) {
-    //   for (var col = 0; col < NUMTILES; col++) {
-    //     shotSequence.push({row: row, col: col});
-    //   }
-    // }
-    // shuffle(shotSequence);
-    // var shots = shotSequence.map(function(pos) { return new Shot({position: pos}); });
-    // this.set('cpuShots', new ShotSet(shots));
-  },
-
   startRecording: function() {
     this.set('state', 'recording');
-    console.log('recording');
   },
 
   stopRecording: function(hitSequence) {
     this.set('state', 'playing');
-    console.log('stop recording');
     return hitSequence;
   },
 
-  startPlayback: function(hitSequence) {
-    console.log('playback');
+  startPlayback: function() {
     this.set('state', 'playback');
-    for (var i=0; i < hitSequence.length; i++) {
-      (function(i) {
-        setTimeout(function() {
-          var drum = hitSequence[i];
-          drum.surface.setProperties({backgroundColor: Colors.YELLOW});
-          document.getElementById(drum.type).play();
-        }, i*1000);
-      })(i);
-    }
+  },
+
+  endPlayback: function() {
     this.set('state', 'playing');
   }
 });
-
-var Hit = Backbone.Model.extend({
-  defaults: {
-    position: {row: 0, col: 0},
-  }
-});
-var HitSet = Backbone.Collection.extend({model: Hit});

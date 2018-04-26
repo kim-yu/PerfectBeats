@@ -8,9 +8,7 @@ var StateModifier = famous.modifiers.StateModifier;
 var Draggable = famous.modifiers.Draggable;
 var GridLayout = famous.views.GridLayout;
 
-var tiles = [];
 var drums = new Object();
-var tileModifiers = [];
 var drumModifiers = [];
 var gridOrigin = [$(window).width() / 2, $(window).height() / 2];
 
@@ -151,7 +149,7 @@ var setupUserInterface = function() {
   drums['djembe-tone'] = { drumType: 'djembe', surface: djembe, type: 'djembe-tone', played: false, innerRadius: DJEMBESIZE/2 * BASS_RATIO, outerRadius: DJEMBESIZE/2, centerX: gridOrigin[0], centerY: gridOrigin[1]};
   // drumModifiers.push(snareModifier);
 
-  // Draw the cursor
+  // left cursor
   leftCursorSurface = new Surface({
     size : [CURSORSIZE, CURSORSIZE],
     properties : {
@@ -159,10 +157,9 @@ var setupUserInterface = function() {
         borderRadius: CURSORSIZE/2 + 'px',
         pointerEvents : 'none',
         zIndex: 1
-    },
-    // content: '<img id="left-cursor-img" src="img/blueDot.png" height="25">'
+    }
   });
-  // var cursorOriginModifier = new StateModifier({origin: [0.5, 0.5]});
+
   var leftCursorTranslateModifier = new Modifier({
     transform : function(){
       var cursorPosition = this.get('screenPosition');
@@ -178,6 +175,7 @@ var setupUserInterface = function() {
     }.bind(leftCursor)
   });
 
+  // right cursor
   rightCursorSurface = new Surface({
     size : [CURSORSIZE, CURSORSIZE],
     properties : {
@@ -185,8 +183,7 @@ var setupUserInterface = function() {
         borderRadius: CURSORSIZE/2 + 'px',
         pointerEvents : 'none',
         zIndex: 1
-    },
-    // content: '<img id="right-cursor-img" src="img/purpleDot.png" height="25">'
+    }
   });
 
   var rightCursorTranslateModifier = new Modifier({
@@ -204,16 +201,10 @@ var setupUserInterface = function() {
     }.bind(rightCursor)
   });
 
-  // var rightCursorSizeModifier = new Modifier({
-  //   transform : function() {
-  //     var cursorSize = this.get('cursorSize');
-  //     return Transform.scale(cursorSize, cursorSize, cursorSize);
-  //   }.bind(rightCursor)
-  // });
-
   mainContext.add(leftCursorTranslateModifier).add(leftCursorRotateModifier).add(leftCursorSurface);
   mainContext.add(rightCursorTranslateModifier).add(rightCursorRotateModifier).add(rightCursorSurface);
 
+  // Speech output
   otherFeedback = new Surface({
     content: "",
     size: [undefined, 50],
@@ -222,9 +213,11 @@ var setupUserInterface = function() {
       color: "white"
     }
   });
+
   var otherModifier = new StateModifier({
     origin: [0.0, 1.0],
     align: [0.0, 1.0]
   })
+
   mainContext.add(otherModifier).add(otherFeedback);
 };
