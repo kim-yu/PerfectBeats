@@ -154,6 +154,12 @@ var registerHit = function(drum, color) {
   }
 };
 
+var playDrum = function(drum, color) {
+  drum.surface.setProperties({backgroundColor: color});
+  document.getElementById(drum.type).play();
+  setTimeout(clearDrums, 200);
+}
+
 // unblinkTiles()
 //    Clears all blinking from the tiles
 var unblinkTiles = function() {

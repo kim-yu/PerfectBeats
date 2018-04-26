@@ -62,7 +62,7 @@ Leap.loop({ frame: function(frame) {
           var leftHit = registerHit(leftSelectedDrum, Colors.YELLOW);
           if (state.get('state') == 'recording') {
             if (leftHit) {
-              hitSequence.push(leftSelectedDrum);
+              hitSequence.push([leftSelectedDrum, Date.now()]);
             }
           }
           leftMostRecentDrum = leftSelectedDrum;
@@ -105,7 +105,7 @@ Leap.loop({ frame: function(frame) {
           var rightHit = registerHit(rightSelectedDrum, Colors.YELLOW);
           if (state.get('state') == 'recording') {
             if (rightHit) {
-              hitSequence.push(rightSelectedDrum);
+              hitSequence.push([rightSelectedDrum, Date.now()]);
             }
           }
           rightMostRecentDrum = rightSelectedDrum;
@@ -142,7 +142,17 @@ var processSpeech = function(transcript) {
       return true;
     }
     else if (userSaid(transcript, ['play'])) {
-      state.startPlayback(hitSequence);
+      state.startPlayback();
+      var start = hitSequence[0][1];
+      for (var i=0; i < hitSequence.length; i++) {
+        (function(i) {
+          setTimeout(function() {
+            var drum = hitSequence[i][0];
+            playDrum(drum, Colors.BLUE);
+          }, hitSequence[i][1] - start);
+        })(i);
+      }
+      state.endPlayback();
       return true;
     }
   } 

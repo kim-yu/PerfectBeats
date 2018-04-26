@@ -70,18 +70,12 @@ var State = Backbone.Model.extend({
     return hitSequence;
   },
 
-  startPlayback: function(hitSequence) {
+  startPlayback: function() {
     console.log('playback');
     this.set('state', 'playback');
-    for (var i=0; i < hitSequence.length; i++) {
-      (function(i) {
-        setTimeout(function() {
-          var drum = hitSequence[i];
-          drum.surface.setProperties({backgroundColor: Colors.YELLOW});
-          document.getElementById(drum.type).play();
-        }, i*1000);
-      })(i);
-    }
+  },
+
+  endPlayback: function() {
     this.set('state', 'playing');
   }
 });
