@@ -16,7 +16,7 @@ var background;
 var rightCursorSurface;
 var leftCursorSurface;
 var otherFeedback;
-var distanceBetween = 150;
+var distanceBetween = 200;
 
 //drums
 var bongo1;
