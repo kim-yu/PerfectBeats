@@ -7,11 +7,6 @@ var Colors = {
   YELLOW: "#FAF36F", // highlighting
 };
 
-var ROWNAMES = ["A", "B", "C", "D", "E", "F", "G", "H"];
-var COLNAMES = ["1", "2", "3", "4", "5", "6", "7", "8"];
-
-var BOARDSIZE = 550;
-var NUMTILES = 5;
 var BONGOSIZE1 = 400;
 var BONGOSIZE2 = 350;
 var CURSORSIZE = 20;

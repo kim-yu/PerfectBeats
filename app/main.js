@@ -27,6 +27,7 @@ Leap.loop({ frame: function(frame) {
   if (frame.hands.length > 0) {
     // Clear any highlighting at the beginning of the loop
     clearDrums();
+    
     for (var h=0; h < frame.hands.length; h++) {
       hand = frame.hands[h];
       if (hand.type == 'left') {
@@ -35,28 +36,20 @@ Leap.loop({ frame: function(frame) {
         rightHand = hand;
       }
 
+      // -650 : 200, value+650/800
       if (leftHand != null) {
-        // TODO: 4.1, Moving the cursor with Leap data
-        // Use the hand data to control the cursor's screen position
         var leftCursorPosition = [leftHand.screenPosition()[0]+50, leftHand.screenPosition()[2]+300];
         var leftSize = (1-(leftHand.screenPosition()[1]+600)/1200)*maxCursorSize
         leftCursor.setScreenPosition(leftCursorPosition);
-        // -650 : 200, value+650/800
-        // console.log(leftSize);
-        // $('#left-cursor-img').attr('height', Math.min(Math.abs(1-(leftSize+600)/1200)*maxCursorSize), 100);
         if (leftSize <= hitHeight) {
           leftCursorSurface.setProperties({'borderRadius': hitHeight/2+'px'});//'background': 'lightblue', 
           leftCursorSurface.setSize([hitHeight, hitHeight])
           var leftPalmVelocity = leftHand.palmVelocity;
           leftSelectedDrum = getIntersectingDrum(leftCursorPosition, leftPalmVelocity, leftCursorSurface, true);
-          // console.log(leftCursorSurface.getProperties());
         } else {
           leftCursorSurface.setProperties({'background': 'royalblue', 'borderRadius': leftSize/2+'px'});
           leftCursorSurface.setSize([leftSize, leftSize])
-          // console.log(leftCursorSurface.getProperties());
         }
-
-        //  Enable the player to grab, move, and rotate the drum stick
 
         if (leftSelectedDrum != false) {
           var leftHit = registerHit(leftSelectedDrum, Colors.YELLOW);
@@ -73,13 +66,9 @@ Leap.loop({ frame: function(frame) {
       }
 
       if (rightHand != null) {
-        // TODO: 4.1, Moving the cursor with Leap data
-        // Use the hand data to control the cursor's screen position
         var rightCursorPosition = [rightHand.screenPosition()[0]+50, rightHand.screenPosition()[2]+300];
         var rightSize = (1-(rightHand.screenPosition()[1]+600)/1200)*maxCursorSize
         rightCursor.setScreenPosition(rightCursorPosition);
-
-        // console.log(rightSize);
 
         if (rightSize <= hitHeight) {
           rightCursorSurface.setProperties({'borderRadius': hitHeight/2+'px'});//'background': 'pink', 
@@ -88,19 +77,11 @@ Leap.loop({ frame: function(frame) {
           var rightPalmVelocity = rightHand.palmVelocity;
 
           rightSelectedDrum = getIntersectingDrum(rightCursorPosition, rightPalmVelocity, rightCursorSurface, false);
-          // console.log(rightCursorSurface.getProperties());
         } else {
           rightCursorSurface.setProperties({'background': 'purple', 'borderRadius': rightSize/2+'px'});
           rightCursorSurface.setSize([rightSize, rightSize])
-          // console.log(rightCursorSurface.getProperties());
         }
-        
-        
-        // $('#right-cursor-img').attr('height', Math.min(Math.abs(1-(rightSize+600)/1200)*maxCursorSize), 100);
-
-        
-
-        //  Enable the player to grab, move, and rotate the drum stick
+      
         if (rightSelectedDrum != false) {
           var rightHit = registerHit(rightSelectedDrum, Colors.YELLOW);
           if (state.get('state') == 'recording') {
