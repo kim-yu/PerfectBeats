@@ -59,7 +59,7 @@ Leap.loop({ frame: function(frame) {
   if (frame.hands.length > 0) {
     // Clear any highlighting at the beginning of the loop
     clearDrums();
-    
+
     for (var h=0; h < frame.hands.length; h++) {
       hand = frame.hands[h];
       if (hand.type == 'left') {
@@ -84,11 +84,13 @@ Leap.loop({ frame: function(frame) {
         }
 
         if (leftSelectedDrum != false) {
-          var leftHit = registerHit(leftSelectedDrum, Colors.YELLOW);
           if (state.get('state') == 'recording') {
+            var leftHit = registerHit(leftSelectedDrum, Colors.RED);
             if (leftHit) {
               hitSequence.push([leftSelectedDrum, Date.now()]);
             }
+          } else {
+            var leftHit = registerHit(leftSelectedDrum, Colors.YELLOW);
           }
           leftMostRecentDrum = leftSelectedDrum;
         } else {
@@ -115,11 +117,13 @@ Leap.loop({ frame: function(frame) {
         }
       
         if (rightSelectedDrum != false) {
-          var rightHit = registerHit(rightSelectedDrum, Colors.YELLOW);
           if (state.get('state') == 'recording') {
+            var rightHit = registerHit(rightSelectedDrum, Colors.RED);
             if (rightHit) {
               hitSequence.push([rightSelectedDrum, Date.now()]);
             }
+          } else {
+            var rightHit = registerHit(rightSelectedDrum, Colors.YELLOW);
           }
           rightMostRecentDrum = rightSelectedDrum;
         } else {
