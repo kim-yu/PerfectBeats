@@ -18,6 +18,7 @@ var CONGASIZE1 = 350;
 var CONGASIZE2 = 350;
 var DJEMBESIZE = 400;
 var CURSORSIZE = 20;
+var BASS_RATIO = 0.75;
 
 var VOICEINDEX = 17; // UK British Female
 var LEAPSCALE = 0.6;

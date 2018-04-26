@@ -20,6 +20,13 @@ var leftCursorSurface;
 var otherFeedback;
 var distanceBetween = 150;
 
+//drums
+var bongo1;
+var bongo2;
+var conga1;
+var conga2;
+var djembe;
+
 // USER INTERFACE SETUP
 var setupUserInterface = function() {
   var mainContext = Engine.createContext();
@@ -34,7 +41,7 @@ var setupUserInterface = function() {
   mainContext.add(background);
 
   // Draw the drums
-  var bongo1 = new Surface({
+  bongo1 = new Surface({
     size: [BONGOSIZE1, BONGOSIZE1],
     properties: {
       backgroundColor: Colors.GREY,
@@ -48,7 +55,7 @@ var setupUserInterface = function() {
     transform: Transform.translate(gridOrigin[0]+distanceBetween/2, gridOrigin[1] - BONGOSIZE1/2, 0)
   });
 
-  var bongo2 = new Surface({
+  bongo2 = new Surface({
     size: [BONGOSIZE2, BONGOSIZE2],
     properties: {
       backgroundColor: Colors.GREY,
@@ -62,13 +69,14 @@ var setupUserInterface = function() {
     transform: Transform.translate(gridOrigin[0] - BONGOSIZE2 - distanceBetween/2, gridOrigin[1] - BONGOSIZE2/2, 0)
   });  
 
-  var conga1 = new Surface({
+  conga1 = new Surface({
     size: [CONGASIZE1, CONGASIZE1],
     properties: {
       backgroundColor: Colors.GREY,
       color: "white",
       border: "solid 1px black",
-      borderRadius: CONGASIZE1/2 + 'px'
+      borderRadius: CONGASIZE1/2 + 'px',
+      display: "none"
     },
     content: '<img id="left-cursor-img" src="img/conga-top.png" height="'+CONGASIZE1+'">'
   });
@@ -76,19 +84,36 @@ var setupUserInterface = function() {
     transform: Transform.translate(gridOrigin[0] + distanceBetween/2, gridOrigin[1] - CONGASIZE1/2, 0)
   }); 
 
-  var conga2 = new Surface({
+  conga2 = new Surface({
     size: [CONGASIZE2, CONGASIZE2],
     properties: {
       backgroundColor: Colors.GREY,
       color: "white",
       border: "solid 1px black",
-      borderRadius: CONGASIZE2/2 + 'px'
+      borderRadius: CONGASIZE2/2 + 'px',
+      display: "none"
     },
     content: '<img id="left-cursor-img" src="img/conga-top.png" height="'+CONGASIZE2+'">'
   });
   var conga2TransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0] - CONGASIZE2 - distanceBetween/2, gridOrigin[1] - CONGASIZE2/2, 0)
   }); 
+
+  djembe = new Surface({
+    size: [DJEMBESIZE, DJEMBESIZE],
+    properties: {
+      backgroundColor: Colors.GREY,
+      color: "white",
+      border: "solid 1px black",
+      borderRadius: DJEMBESIZE/2 + 'px',
+      display: "none"
+    },
+    content: '<img id="left-cursor-img" src="img/djembe-top.png" height="'+DJEMBESIZE+'">'
+  });
+  var djembeTransformModifier = new StateModifier({
+    transform: Transform.translate(gridOrigin[0] - DJEMBESIZE/2, gridOrigin[1] - DJEMBESIZE/2, 0)
+  }); 
+
   // var bongoModifier = new Modifier({
   //   opacity: 1.0
   // });
@@ -96,11 +121,34 @@ var setupUserInterface = function() {
   mainContext.add(bongo2TransformModifier).add(bongo2);
   mainContext.add(conga1TransformModifier).add(conga1);
   mainContext.add(conga2TransformModifier).add(conga2);
-  drums['bongo1'] = { surface: bongo1, type: 'bongo-low', played: false, radius: BONGOSIZE1/2, centerX: gridOrigin[0]+BONGOSIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
-  drums['bongo2'] = { surface: bongo2, type: 'bongo-high', played: false, radius: BONGOSIZE2/2, centerX: gridOrigin[0]-BONGOSIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
+  mainContext.add(djembeTransformModifier).add(djembe);
+
+  drums['bongo1'] = { drumType: 'bongo', surface: bongo1, type: 'bongo-low', played: false, innerRadius: 0, outerRadius: BONGOSIZE1/2, centerX: gridOrigin[0]+BONGOSIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
+  drums['bongo2'] = { drumType: 'bongo', surface: bongo2, type: 'bongo-high', played: false, innerRadius: 0, outerRadius: BONGOSIZE2/2, centerX: gridOrigin[0]-BONGOSIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
   // TODO: Do Change the type and radius to account for the different conga sounds
-  drums['conga1'] = { surface: conga1, type: 'bongo-low', played: false, radius: CONGASIZE1/2, centerX: gridOrigin[0]+CONGASIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
-  drums['conga2'] = { surface: conga2, type: 'bongo-high', played: false, radius: CONGASIZE2/2, centerX: gridOrigin[0]-CONGASIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
+  drums['conga1-bass'] = { drumType: 'conga', surface: conga1, type: 'conga-bass', played: false, innerRadius: 0, outerRadius: CONGASIZE1/2 * BASS_RATIO, centerX: gridOrigin[0]+CONGASIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
+  drums['conga2-bass'] = { drumType: 'conga', surface: conga2, type: 'conga-bass', played: false, innerRadius: 0, outerRadius: CONGASIZE2/2 * BASS_RATIO, centerX: gridOrigin[0]-CONGASIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
+
+  drums['conga1-tone'] = { drumType: 'conga', surface: conga1, type: 'conga-tone', played: false, innerRadius: CONGASIZE1/2 * BASS_RATIO, outerRadius: CONGASIZE1/2, centerX: gridOrigin[0]+CONGASIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
+  drums['conga2-tone'] = { drumType: 'conga', surface: conga2, type: 'conga-tone', played: false, innerRadius: CONGASIZE2/2 * BASS_RATIO, outerRadius: CONGASIZE2/2, centerX: gridOrigin[0]-CONGASIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
+  
+  // drums['conga1-muff'] = { surface: conga1, type: 'conga-muff', played: false, radius: CONGASIZE1/2, centerX: gridOrigin[0]+CONGASIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
+  // drums['conga2-muff'] = { surface: conga2, type: 'conga-muff', played: false, radius: CONGASIZE2/2, centerX: gridOrigin[0]-CONGASIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
+
+  // drums['conga1-tip'] = { surface: conga1, type: 'conga-tip', played: false, radius: CONGASIZE1/2, centerX: gridOrigin[0]+CONGASIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
+  // drums['conga2-tip'] = { surface: conga2, type: 'conga-tip', played: false, radius: CONGASIZE2/2, centerX: gridOrigin[0]-CONGASIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
+
+  // drums['conga1-openslap'] = { surface: conga1, type: 'conga-openslap', played: false, radius: CONGASIZE1/2, centerX: gridOrigin[0]+CONGASIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
+  // drums['conga2-openslap'] = { surface: conga2, type: 'conga-openslap', played: false, radius: CONGASIZE2/2, centerX: gridOrigin[0]-CONGASIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
+
+  // drums['conga1-closedslap'] = { surface: conga1, type: 'conga-closedslap', played: false, radius: CONGASIZE1/2, centerX: gridOrigin[0]+CONGASIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
+  // drums['conga2-closedslap'] = { surface: conga2, type: 'conga-closedslap', played: false, radius: CONGASIZE2/2, centerX: gridOrigin[0]-CONGASIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
+  
+  // drums['conga1-mutedslap'] = { surface: conga1, type: 'conga-mutedslap', played: false, radius: CONGASIZE1/2, centerX: gridOrigin[0]+CONGASIZE1/2 + distanceBetween/2, centerY: gridOrigin[1]};
+  // drums['conga2-mutedslap'] = { surface: conga2, type: 'conga-mutedslap', played: false, radius: CONGASIZE2/2, centerX: gridOrigin[0]-CONGASIZE2/2 - distanceBetween/2, centerY: gridOrigin[1]};
+  
+  drums['djembe-bass'] = { drumType: 'djembe', surface: djembe, type: 'djembe-bass', played: false, innerRadius: 0, outerRadius: DJEMBESIZE/2 * BASS_RATIO, centerX: gridOrigin[0], centerY: gridOrigin[1]};
+  drums['djembe-tone'] = { drumType: 'djembe', surface: djembe, type: 'djembe-tone', played: false, innerRadius: DJEMBESIZE/2 * BASS_RATIO, outerRadius: DJEMBESIZE/2, centerX: gridOrigin[0], centerY: gridOrigin[1]};
   // drumModifiers.push(snareModifier);
 
   // Draw the cursor
