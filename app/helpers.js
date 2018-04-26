@@ -25,36 +25,71 @@ var generateSpeech = function(message, callback) {
 // Output:
 //    drum = object, if intersecting the board
 //    false, if not intersecting the board
-
-var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor, isLeft) {
+// TODO: change function to allow for different parts of the drum to intersect
+var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor, isLeft, currentDrum) {
   if (palmVelocity[1] < 0 && Math.abs(palmVelocity[1]) > 200) { // && Math.abs(palmVelocity[0]) < 5 && Math.abs(palmVelocity[2]) < 5
     // if hit the bongo1 drum
     var screenX = screenPosition[0];
     var screenY = screenPosition[1];
-    if (getDistance([screenX, screenY], [drums['bongo1']['centerX'], drums['bongo1']['centerY']]) <= BONGOSIZE1/2) {
-      if (isLeft) {
-        handCursor.setProperties({'background': 'lightblue'});
-      } else {
-        handCursor.setProperties({'background': 'pink'});
+    console.log("HERE");
+    for (var i=0; i<currentDrums.length; i++) {
+      var currentDrum = currentDrums[i];
+      console.log(currentDrum);
+      console.log(currentDrum['centerX']);
+      console.log(currentDrum['centerY']);
+      var distance = getDistance([screenX, screenY], [currentDrum['centerX'], currentDrum['centerY']]);
+      console.log('distance '+distance);
+      if (distance >= currentDrum['innerRadius'] && distance <= currentDrum['outerRadius']) {
+        console.log("HIT");
+        if (isLeft) {
+          handCursor.setProperties({'background': 'lightblue'});
+        } else {
+          handCursor.setProperties({'background': 'pink'});
+        }
+        var drum = currentDrum;
+        return drum;
       }
-      var drum = drums['bongo1'];
-      return drum;
+      // console.log(drums[drum]);
+      
+      // console.log(drums[drum]);
     }
 
-    // if hit bongo2 drum
-    else if (getDistance([screenX, screenY], [drums['bongo2']['centerX'], drums['bongo2']['centerY']]) <= BONGOSIZE2/2) {
-      if (isLeft) {
-        handCursor.setProperties({'background': 'lightblue'});
-      } else {
-        handCursor.setProperties({'background': 'pink'});
-      }
-      var drum = drums['bongo2'];
-      return drum;
+    if (isLeft) {
+      handCursor.setProperties({'background': 'royalblue'});
+    } else {
+      handCursor.setProperties({'background': 'purple'});
     }
+    return false;
 
-    else {
-      return false;
-    }
+    // if (getDistance([screenX, screenY], [drums['bongo1']['centerX'], drums['bongo1']['centerY']]) <= BONGOSIZE1/2) {
+    //   if (isLeft) {
+    //     handCursor.setProperties({'background': 'lightblue'});
+    //   } else {
+    //     handCursor.setProperties({'background': 'pink'});
+    //   }
+    //   var drum = drums['bongo1'];
+    //   return drum;
+    // }
+
+    // // if hit bongo2 drum
+    // else if (getDistance([screenX, screenY], [drums['bongo2']['centerX'], drums['bongo2']['centerY']]) <= BONGOSIZE2/2) {
+    //   if (isLeft) {
+    //     handCursor.setProperties({'background': 'lightblue'});
+    //   } else {
+    //     handCursor.setProperties({'background': 'pink'});
+    //   }
+    //   var drum = drums['bongo2'];
+    //   return drum;
+    // }
+
+    // else {
+    //   if (isLeft) {
+    //     handCursor.setProperties({'background': 'royalblue'});
+    //   } else {
+    //     handCursor.setProperties({'background': 'purple'});
+    //   }
+    //   return false;
+    // }
 
 
     // if (screenPosition[0] >= gridOrigin[0] && screenPosition[0] <= gridOrigin[0] + BOARDSIZE
@@ -76,6 +111,11 @@ var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor, isL
 
   }
   else {
+    if (isLeft) {
+        handCursor.setProperties({'background': 'royalblue'});
+      } else {
+        handCursor.setProperties({'background': 'purple'});
+      }
     return false;
   }
 };
