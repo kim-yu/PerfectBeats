@@ -7,11 +7,20 @@ var Colors = {
   YELLOW: "#FAF36F", // highlighting
 };
 
-var BONGOSIZE1 = 400;
-var BONGOSIZE2 = 350;
-var CONGASIZE1 = 350;
-var CONGASIZE2 = 350;
-var DJEMBESIZE = 400;
+var BONGOSIZE1 = 250;
+var BONGOSIZE2 = 200;
+var BONGOX = -300;
+var BONGOY = -100;
+
+var CONGASIZE1 = 200;
+var CONGASIZE2 = 200;
+var CONGAX = 300;
+var CONGAY = -100;
+
+var DJEMBESIZE = 250;
+var DJEMBEX = 0;
+var DJEMBEY = 190;
+
 var CURSORSIZE = 20;
 var BASS_RATIO = 0.5;
 

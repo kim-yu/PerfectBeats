@@ -24,10 +24,12 @@ var hitSequence = [];
 var drumsToObject = {
   'bongo': [drums['bongo1'], drums['bongo2']],
   'conga': [drums['conga1-bass'], drums['conga2-bass'], drums['conga1-tone'], drums['conga2-tone']],
-  'djembe': [drums['djembe-bass'], drums['djembe-tone']]
+  'djembe': [drums['djembe-bass'], drums['djembe-tone']],
+  'all': [drums['bongo1'], drums['bongo2'], drums['conga1-bass'], drums['conga2-bass'], drums['conga1-tone'], drums['conga2-tone'], drums['djembe-bass'], drums['djembe-tone']]
 };
 
-var currentDrums = drumsToObject['bongo'];
+var currentDrums = drumsToObject['all'];
+var volume = 1.0;
 
 function onSelectChange() {
   var new_drum = document.getElementById("select-drum").value;

@@ -31,22 +31,28 @@ var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor, isL
     // if hit the bongo1 drum
     var screenX = screenPosition[0];
     var screenY = screenPosition[1];
-    console.log("HERE");
+    // console.log("HERE");
     for (var i=0; i<currentDrums.length; i++) {
       var currentDrum = currentDrums[i];
-      console.log(currentDrum);
-      console.log(currentDrum['centerX']);
-      console.log(currentDrum['centerY']);
+      // console.log(currentDrum);
+      // console.log(currentDrum['centerX']);
+      // console.log(currentDrum['centerY']);
       var distance = getDistance([screenX, screenY], [currentDrum['centerX'], currentDrum['centerY']]);
-      console.log('distance '+distance);
+      // console.log('distance '+distance);
       if (distance >= currentDrum['innerRadius'] && distance <= currentDrum['outerRadius']) {
-        console.log("HIT");
+        // console.log("HIT");
         if (isLeft) {
           handCursor.setProperties({'background': 'lightblue'});
         } else {
           handCursor.setProperties({'background': 'pink'});
         }
         var drum = currentDrum;
+        // volume = Math.abs(palmVelocity[1]);
+        volume = Math.min( Math.abs(palmVelocity[1]), 1200); // range is 200-1200
+        volume = volume - 200;
+        volume = volume/1000.0;
+        console.log(palmVelocity[1]);
+        console.log(volume);
         return drum;
       }
       // console.log(drums[drum]);
@@ -142,6 +148,8 @@ var clearDrums = function() {
 var registerHit = function(drum, color) {
   drum.surface.setProperties({backgroundColor: color});
   if (!drum.played) {
+    console.log(volume);
+    document.getElementById(drum.type).volume = volume;
     document.getElementById(drum.type).play();
     drum.played = true;
     return true;
