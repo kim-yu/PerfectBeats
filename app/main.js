@@ -155,12 +155,12 @@ var processSpeech = function(transcript) {
 
   var processed = false;
   if (state.get('state') == 'playing') {
-    if (userSaid(transcript, ['Beats record', 'beats record'])) {
+    if (userSaid(transcript, ['System record', 'system record'])) {
       state.startRecording();
       hitSequence = [];
       return true;
     }
-    else if (userSaid(transcript, ['Beats play', 'beats play'])) {
+    else if (userSaid(transcript, ['System play', 'system play'])) {
       state.startPlayback();
       var start = hitSequence[0][1];
       for (var i=0; i < hitSequence.length; i++) {
@@ -176,7 +176,7 @@ var processSpeech = function(transcript) {
     }
   } 
   else if (state.get('state') == 'recording') {
-    if (userSaid(transcript, ['Beats stop', 'beats stop'])) {
+    if (userSaid(transcript, ['System stop', 'system stop'])) {
       state.stopRecording(hitSequence);
       return true;
     } 
