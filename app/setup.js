@@ -29,7 +29,7 @@ var djembe;
 var setupUserInterface = function() {
   var mainContext = Engine.createContext();
   background = new Surface({
-    content: "<h1>PerfectBeats</h1>",
+    content: "<h1>PerfectBeats</h1><br>",
     properties: {
       backgroundColor: "rgb(34, 34, 34)",
       color: "white",

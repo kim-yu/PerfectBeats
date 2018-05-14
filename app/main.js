@@ -152,7 +152,6 @@ var processSpeech = function(transcript) {
     }
     return false;
   };
-
   var processed = false;
   if (state.get('state') == 'playing') {
     if (userSaid(transcript, ['System record', 'system record'])) {
@@ -161,17 +160,7 @@ var processSpeech = function(transcript) {
       return true;
     }
     else if (userSaid(transcript, ['System play', 'system play'])) {
-      state.startPlayback();
-      var start = hitSequence[0][1];
-      for (var i=0; i < hitSequence.length; i++) {
-        (function(i) {
-          setTimeout(function() {
-            var drum = hitSequence[i][0];
-            playDrum(drum, Colors.BLUE);
-          }, hitSequence[i][1] - start);
-        })(i);
-      }
-      state.endPlayback();
+      state.startPlayback(hitSequence);
       return true;
     }
   } 

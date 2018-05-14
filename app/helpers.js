@@ -51,8 +51,8 @@ var getIntersectingDrum = function(screenPosition, palmVelocity, handCursor, isL
         volume = Math.min( Math.abs(palmVelocity[1]), 1200); // range is 200-1200
         volume = volume - 200;
         volume = volume/1000.0;
-        console.log(palmVelocity[1]);
-        console.log(volume);
+        // console.log(palmVelocity[1]);
+        // console.log(volume);
         return drum;
       }
       // console.log(drums[drum]);
