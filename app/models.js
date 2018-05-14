@@ -25,7 +25,6 @@ var Cursor = Backbone.Model.extend({
 
 // playHit = function(drum) {
 //   setTimeout(function() {
-//     console.log(drum);
 //     drum.surface.setProperties({backgroundColor: Colors.YELLOW});
 //     document.getElementById(drum.type).play();
 //   }, 200);

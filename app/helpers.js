@@ -134,10 +134,13 @@ var getDistance = function(point1, point2) {
 // clearDrums()
 //    Clears all highlighting from the drums
 var clearDrums = function() {
-  for (type in drums) {
-    drum = drums[type];
-    drum.surface.setProperties({backgroundColor: Colors.GREY});
-  };
+  setTimeout(function() {
+    for (type in drums) {
+      drum = drums[type];
+      drum.surface.setProperties({backgroundColor: Colors.GREY});
+      document.getElementById(drum.label).style.color = "white";
+    };
+  }, 1000);
 };
 
 // registerHit(drum, color)
@@ -146,9 +149,10 @@ var clearDrums = function() {
 //    drum
 //    color = color hex code (see Colors at top of file)
 var registerHit = function(drum, color) {
-  drum.surface.setProperties({backgroundColor: color});
   if (!drum.played) {
     // console.log(volume);
+    drum.surface.setProperties({backgroundColor: color});
+    document.getElementById(drum.label).style.color = color;
     document.getElementById(drum.type).volume = volume;
     document.getElementById(drum.type).play();
     drum.played = true;
@@ -160,8 +164,9 @@ var registerHit = function(drum, color) {
 
 var playDrum = function(drum, color) {
   drum.surface.setProperties({backgroundColor: color});
+  document.getElementById(drum.label).style.color = color;
   document.getElementById(drum.type).play();
-  setTimeout(clearDrums, 200);
+  setTimeout(clearDrums, document.getElementById(drum.type).duration);
 }
 
 var getSnappedScreenPosition = function(boardPosition) {
