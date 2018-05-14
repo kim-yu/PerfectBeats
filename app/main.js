@@ -87,12 +87,12 @@ Leap.loop({ frame: function(frame) {
 
         if (leftSelectedDrum != false) {
           if (state.get('state') == 'recording') {
-            var leftHit = registerHit(leftSelectedDrum, Colors.RED);
+            var leftHit = registerHit(leftSelectedDrum, Colors.RED, leftPalmVelocity);
             if (leftHit) {
-              hitSequence.push([leftSelectedDrum, Date.now()]);
+              hitSequence.push([leftSelectedDrum, Date.now(), leftPalmVelocity[1]]);
             }
           } else {
-            var leftHit = registerHit(leftSelectedDrum, Colors.YELLOW);
+            var leftHit = registerHit(leftSelectedDrum, Colors.YELLOW, leftPalmVelocity[1]);
           }
           leftMostRecentDrum = leftSelectedDrum;
         } else {
@@ -120,12 +120,12 @@ Leap.loop({ frame: function(frame) {
       
         if (rightSelectedDrum != false) {
           if (state.get('state') == 'recording') {
-            var rightHit = registerHit(rightSelectedDrum, Colors.RED);
+            var rightHit = registerHit(rightSelectedDrum, Colors.RED, rightPalmVelocity[1]);
             if (rightHit) {
-              hitSequence.push([rightSelectedDrum, Date.now()]);
+              hitSequence.push([rightSelectedDrum, Date.now(), rightPalmVelocity[1]]);
             }
           } else {
-            var rightHit = registerHit(rightSelectedDrum, Colors.YELLOW);
+            var rightHit = registerHit(rightSelectedDrum, Colors.YELLOW, rightPalmVelocity[1]);
           }
           rightMostRecentDrum = rightSelectedDrum;
         } else {
