@@ -148,7 +148,7 @@ var clearDrums = function() {
 var registerHit = function(drum, color) {
   drum.surface.setProperties({backgroundColor: color});
   if (!drum.played) {
-    console.log(volume);
+    // console.log(volume);
     document.getElementById(drum.type).volume = volume;
     document.getElementById(drum.type).play();
     drum.played = true;

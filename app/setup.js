@@ -47,7 +47,7 @@ var setupUserInterface = function() {
       border: "solid 1px black",
       borderRadius: BONGOSIZE1/2 + 'px'
     },
-    content: '<img id="left-cursor-img" src="img/bongo-top.png" height="'+BONGOSIZE1+'">'
+    content: '<img id="left-cursor-img" src="img/bongo-top.png" height="'+BONGOSIZE1+'"><p style="text-align: center;">Bongo</p>'
   });
   var bongo1TransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0]+distanceBetween/2 + BONGOX, gridOrigin[1] - BONGOSIZE1/2 + BONGOY, 0)
@@ -61,7 +61,7 @@ var setupUserInterface = function() {
       border: "solid 1px black",
       borderRadius: BONGOSIZE2/2 + 'px'
     },
-    content: '<img id="left-cursor-img" src="img/bongo-top.png" height="'+BONGOSIZE2+'">'
+    content: '<img id="left-cursor-img" src="img/bongo-top.png" height="'+BONGOSIZE2+'"><p style="text-align: center;">Bongo</p>'
   });
   var bongo2TransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0] - BONGOSIZE2 - distanceBetween/2 + BONGOX, gridOrigin[1] - BONGOSIZE2/2 + BONGOY, 0)
@@ -76,7 +76,7 @@ var setupUserInterface = function() {
       borderRadius: CONGASIZE1/2 + 'px',
       // display: "none"
     },
-    content: '<img id="left-cursor-img" src="img/conga-top.png" height="'+CONGASIZE1+'">'
+    content: '<img id="left-cursor-img" src="img/conga-top.png" height="'+CONGASIZE1+'"><p style="text-align: center;">Conga</p>'
   });
   var conga1TransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0] + distanceBetween/2 + CONGAX, gridOrigin[1] - CONGASIZE1/2 + CONGAY, 0)
@@ -91,7 +91,7 @@ var setupUserInterface = function() {
       borderRadius: CONGASIZE2/2 + 'px',
       // display: "none"
     },
-    content: '<img id="left-cursor-img" src="img/conga-top.png" height="'+CONGASIZE2+'">'
+    content: '<img id="left-cursor-img" src="img/conga-top.png" height="'+CONGASIZE2+'"><p style="text-align: center;">Conga</p>'
   });
   var conga2TransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0] - CONGASIZE2 - distanceBetween/2 + CONGAX, gridOrigin[1] - CONGASIZE2/2 + CONGAY, 0)
@@ -106,7 +106,7 @@ var setupUserInterface = function() {
       borderRadius: DJEMBESIZE/2 + 'px',
       // display: "none"
     },
-    content: '<img id="left-cursor-img" src="img/djembe-top.png" height="'+DJEMBESIZE+'">'
+    content: '<img id="left-cursor-img" src="img/djembe-top.png" height="'+DJEMBESIZE+'"><p style="text-align: center;">Djembe</p>'
   });
   var djembeTransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0] - DJEMBESIZE/2 + DJEMBEX, gridOrigin[1] - DJEMBESIZE/2 + DJEMBEY, 0)
@@ -207,7 +207,7 @@ var setupUserInterface = function() {
   // Speech output
   otherFeedback = new Surface({
     content: "",
-    size: [undefined, 30],
+    size: [500, 30],
     properties: {
       backgroundColor: "rgb(34, 34, 34)",
       color: "white"
