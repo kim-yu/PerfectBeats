@@ -169,7 +169,7 @@ var colorDrums = function(drum, color) {
 // Input:
 //    drum
 //    color = color hex code (see Colors at top of file)
-var registerHit = function(drum, color, velocity, volume) {
+var registerHit = function(drum, color, velocity) {
   if (!drum.played) {
     // console.log(volume);
     // drum.surface.setProperties({backgroundColor: color});
@@ -206,6 +206,7 @@ var playDrum = function(drum, color, velocity, volume) {
   document.getElementById(drum.type).play();
   clearDrums();
   var duration = document.getElementById(drum.type).duration;
+  console.log(duration)
   setTimeout(function() {
     background.setContent("<h1>PerfectBeats</h1><br>");
   }, duration*1000);

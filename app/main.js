@@ -94,7 +94,7 @@ Leap.loop({ frame: function(frame) {
               hitSequence.push([leftSelectedDrum, Date.now(), leftPalmVelocity[1], volume]);
             }
           } else {
-            var leftHit = registerHit(leftSelectedDrum, Colors.YELLOW, leftPalmVelocity[1], volume);
+            var leftHit = registerHit(leftSelectedDrum, Colors.YELLOW, leftPalmVelocity[1]);
           }
           leftMostRecentDrum = leftSelectedDrum;
         } else {
