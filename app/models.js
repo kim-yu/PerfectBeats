@@ -81,7 +81,7 @@ var State = Backbone.Model.extend({
         (function(i) {
           setTimeout(function() {
             var drum = hitSequence[i][0];
-            playDrum(drum, Colors.BLUE, hitSequence[i][2]);
+            playDrum(drum, Colors.BLUE, hitSequence[i][2], hitSequence[i][3]);
           }, hitSequence[i][1] - start);
         })(i);
       }
