@@ -173,7 +173,7 @@ var registerHit = function(drum, color, velocity, volume) {
   if (!drum.played) {
     // console.log(volume);
     // drum.surface.setProperties({backgroundColor: color});
-    background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'> Volume: ${Math.abs(volume.toFixed(2))*100}</h3>`);
+    background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'> Volume: ${(100*Math.abs(volume)).toFixed(0)}</h3>`);
     // console.log(drum)
     
     colorDrums(drum, color);
@@ -199,7 +199,7 @@ var registerHit = function(drum, color, velocity, volume) {
 
 var playDrum = function(drum, color, velocity, volume) {
   // drum.surface.setProperties({backgroundColor: color});
-  background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'> Volume: ${Math.abs(volume.toFixed(2))*100}</h3>`);
+  background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'> Volume: ${(100*Math.abs(volume)).toFixed(0)}</h3>`);
   colorDrums(drum, color);
   document.getElementById(drum.label).style.color = color;
   document.getElementById(drum.type).volume = volume;
