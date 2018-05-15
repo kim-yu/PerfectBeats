@@ -173,7 +173,7 @@ var registerHit = function(drum, color, velocity) {
   if (!drum.played) {
     // console.log(volume);
     // drum.surface.setProperties({backgroundColor: color});
-    background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'> Volume: ${Math.abs(volume.toFixed(2))}</h3>`);
+    background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'> Volume: ${Math.abs(volume.toFixed(2))*100}</h3>`);
     // console.log(drum)
     
     colorDrums(drum, color);
@@ -187,7 +187,10 @@ var registerHit = function(drum, color, velocity) {
     // console.log("hit registered!")
     drum.played = true;
     clearDrums();
-    // setTimeout(clearDrums, document.getElementById(drum.type).duration);
+    var duration = document.getElementById(drum.type).duration;
+    setTimeout(function() {
+      background.setContent("<h1>PerfectBeats</h1><br>");
+    }, duration*1000);
     return true;
   } else {
     return false;
@@ -196,11 +199,15 @@ var registerHit = function(drum, color, velocity) {
 
 var playDrum = function(drum, color, velocity) {
   // drum.surface.setProperties({backgroundColor: color});
-  background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'> Volume: ${Math.abs(volume.toFixed(2))}</h3>`);
+  background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'> Volume: ${Math.abs(volume.toFixed(2))*100}</h3>`);
   colorDrums(drum, color);
   document.getElementById(drum.label).style.color = color;
   document.getElementById(drum.type).play();
-  setTimeout(clearDrums, document.getElementById(drum.type).duration);
+  clearDrums();
+  var duration = document.getElementById(drum.type).duration;
+  setTimeout(function() {
+    background.setContent("<h1>PerfectBeats</h1><br>");
+  }, duration*1000);
 }
 
 var getSnappedScreenPosition = function(boardPosition) {

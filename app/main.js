@@ -157,18 +157,18 @@ var processSpeech = function(transcript) {
   };
   var processed = false;
   if (state.get('state') == 'playing') {
-    if (userSaid(transcript, ['System record', 'system record'])) {
+    if (userSaid(transcript, ['Beats record', 'beats record'])) {
       state.startRecording();
       hitSequence = [];
       return true;
     }
-    else if (userSaid(transcript, ['System play', 'system play'])) {
+    else if (userSaid(transcript, ['Beats play', 'beats play'])) {
       state.startPlayback(hitSequence);
       return true;
     }
   } 
   else if (state.get('state') == 'recording') {
-    if (userSaid(transcript, ['System stop', 'system stop'])) {
+    if (userSaid(transcript, ['Beats stop', 'beats stop'])) {
       state.stopRecording(hitSequence);
       return true;
     } 
