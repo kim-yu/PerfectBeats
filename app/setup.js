@@ -42,12 +42,15 @@ var setupUserInterface = function() {
   bongo1 = new Surface({
     size: [BONGOSIZE1, BONGOSIZE1],
     properties: {
-      backgroundColor: Colors.GREY,
+      // background: 'none',
+      // backgroundColor: none,
       color: "white",
-      border: "solid 1px black",
-      borderRadius: BONGOSIZE1/2 + 'px'
+      // border: "solid 1px black",
+      // borderRadius: BONGOSIZE1/2 + 'px',
+      // display: 'none'
+      // zIndex: "100"
     },
-    content: '<img src="img/bongo-top.png" height="'+BONGOSIZE1+'"><p id="bongo1" style="text-align: center;">BONGO</p>'
+    content: '<img id="bongo1-img" src="img/bongo-top.png" height="'+BONGOSIZE1+'"><p id="bongo1" style="text-align: center;">BONGO</p>'
   });
   var bongo1TransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0]+distanceBetween/2 + BONGOX, gridOrigin[1] - BONGOSIZE1/2 + BONGOY, 0)
@@ -56,12 +59,12 @@ var setupUserInterface = function() {
   bongo2 = new Surface({
     size: [BONGOSIZE2, BONGOSIZE2],
     properties: {
-      backgroundColor: Colors.GREY,
+      // backgroundColor: Colors.GREY,
       color: "white",
-      border: "solid 1px black",
-      borderRadius: BONGOSIZE2/2 + 'px'
+      // border: "solid 1px black",
+      // borderRadius: BONGOSIZE2/2 + 'px'
     },
-    content: '<img src="img/bongo-top.png" height="'+BONGOSIZE2+'"><p id="bongo2" style="text-align: center;">BONGO</p>'
+    content: '<img id="bongo2-img" src="img/bongo-top.png" height="'+BONGOSIZE2+'"><p id="bongo2" style="text-align: center;">BONGO</p>'
   });
   var bongo2TransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0] - BONGOSIZE2 - distanceBetween/2 + BONGOX, gridOrigin[1] - BONGOSIZE2/2 + BONGOY, 0)
@@ -70,13 +73,13 @@ var setupUserInterface = function() {
   conga1 = new Surface({
     size: [CONGASIZE1, CONGASIZE1],
     properties: {
-      backgroundColor: Colors.GREY,
+      // backgroundColor: Colors.GREY,
       color: "white",
-      border: "solid 1px black",
-      borderRadius: CONGASIZE1/2 + 'px',
+      // border: "solid 1px black",
+      // borderRadius: CONGASIZE1/2 + 'px',
       // display: "none"
     },
-    content: '<img src="img/conga-top.png" height="'+CONGASIZE1+'"><p id="conga1" style="text-align: center;">CONGA</p>'
+    content: '<img id="conga1-img" src="img/conga-top.png" height="'+CONGASIZE1+'"><p id="conga1" style="text-align: center;">CONGA</p>'
   });
   var conga1TransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0] + distanceBetween/2 + CONGAX, gridOrigin[1] - CONGASIZE1/2 + CONGAY, 0)
@@ -85,13 +88,13 @@ var setupUserInterface = function() {
   conga2 = new Surface({
     size: [CONGASIZE2, CONGASIZE2],
     properties: {
-      backgroundColor: Colors.GREY,
+      // backgroundColor: Colors.GREY,
       color: "white",
-      border: "solid 1px black",
-      borderRadius: CONGASIZE2/2 + 'px',
+      // border: "solid 1px black",
+      // borderRadius: CONGASIZE2/2 + 'px',
       // display: "none"
     },
-    content: '<img src="img/conga-top.png" height="'+CONGASIZE2+'"><p id="conga2" style="text-align: center;">CONGA</p>'
+    content: '<img id="conga2-img" src="img/conga-top.png" height="'+CONGASIZE2+'"><p id="conga2" style="text-align: center;">CONGA</p>'
   });
   var conga2TransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0] - CONGASIZE2 - distanceBetween/2 + CONGAX, gridOrigin[1] - CONGASIZE2/2 + CONGAY, 0)
@@ -100,13 +103,13 @@ var setupUserInterface = function() {
   djembe = new Surface({
     size: [DJEMBESIZE, DJEMBESIZE],
     properties: {
-      backgroundColor: Colors.GREY,
+      // backgroundColor: Colors.GREY,
       color: "white",
-      border: "solid 1px black",
-      borderRadius: DJEMBESIZE/2 + 'px',
+      // border: "solid 1px black",
+      // borderRadius: DJEMBESIZE/2 + 'px',
       // display: "none"
     },
-    content: '<img src="img/djembe-top.png" height="'+DJEMBESIZE+'"><p id="djembe" style="text-align: center;">DJEMBE</p>'
+    content: '<img id="djembe-img" src="img/djembe-top.png" height="'+DJEMBESIZE+'"><p id="djembe" style="text-align: center;">DJEMBE</p>'
   });
   var djembeTransformModifier = new StateModifier({
     transform: Transform.translate(gridOrigin[0] - DJEMBESIZE/2 + DJEMBEX, gridOrigin[1] - DJEMBESIZE/2 + DJEMBEY, 0)
@@ -121,8 +124,8 @@ var setupUserInterface = function() {
   mainContext.add(conga2TransformModifier).add(conga2);
   mainContext.add(djembeTransformModifier).add(djembe);
 
-  drums['bongo1'] = { label: 'bongo1', drumType: 'bongo', surface: bongo1, type: 'bongo-low', played: false, innerRadius: 0, outerRadius: BONGOSIZE1/2, centerX: gridOrigin[0]+BONGOSIZE1/2 + distanceBetween/2 + BONGOX, centerY: gridOrigin[1] + BONGOY};
-  drums['bongo2'] = { label: 'bongo2', drumType: 'bongo', surface: bongo2, type: 'bongo-high', played: false, innerRadius: 0, outerRadius: BONGOSIZE2/2, centerX: gridOrigin[0]-BONGOSIZE2/2 - distanceBetween/2 + BONGOX, centerY: gridOrigin[1] + BONGOY};
+  drums['bongo1'] = { label: 'bongo1', drumType: 'bongo', surface: bongo1, type: 'bongo-bass', played: false, innerRadius: 0, outerRadius: BONGOSIZE1/2, centerX: gridOrigin[0]+BONGOSIZE1/2 + distanceBetween/2 + BONGOX, centerY: gridOrigin[1] + BONGOY};
+  drums['bongo2'] = { label: 'bongo2', drumType: 'bongo', surface: bongo2, type: 'bongo-tone', played: false, innerRadius: 0, outerRadius: BONGOSIZE2/2, centerX: gridOrigin[0]-BONGOSIZE2/2 - distanceBetween/2 + BONGOX, centerY: gridOrigin[1] + BONGOY};
   // TODO: Do Change the type and radius to account for the different conga sounds
   drums['conga1-bass'] = { label: 'conga1', drumType: 'conga', surface: conga1, type: 'conga-bass', played: false, innerRadius: 0, outerRadius: CONGASIZE1/2 * BASS_RATIO, centerX: gridOrigin[0]+CONGASIZE1/2 + distanceBetween/2 + CONGAX, centerY: gridOrigin[1] + CONGAY};
   drums['conga2-bass'] = { label: 'conga2', drumType: 'conga', surface: conga2, type: 'conga-bass', played: false, innerRadius: 0, outerRadius: CONGASIZE2/2 * BASS_RATIO, centerX: gridOrigin[0]-CONGASIZE2/2 - distanceBetween/2 + CONGAX, centerY: gridOrigin[1] + CONGAY};

@@ -137,11 +137,32 @@ var clearDrums = function() {
   setTimeout(function() {
     for (type in drums) {
       drum = drums[type];
-      drum.surface.setProperties({backgroundColor: Colors.GREY});
+      new_src = document.getElementById(drum.label+"-img").getAttribute('src').split('-top')[0]+"-top.png"
+      document.getElementById(drum.label+"-img").src = new_src;
       document.getElementById(drum.label).style.color = "white";
     };
-  }, 1000);
+  }, 200);
 };
+
+var colorDrums = function(drum, color) {
+  var color;
+  if (color == Colors.YELLOW) {
+    color = "yellow";
+  } else if (color == Colors.BLUE) {
+    color = "blue";
+  } else {
+    color = "red";
+  }
+
+  if (drum.drumType == "bongo") {
+    document.getElementById(drum.label+"-img").src = document.getElementById(drum.label+"-img").getAttribute('src').split('-top')[0]+"-top-"+color+".png"
+  } else {
+    var type = drum.type.split("-")[1]
+    var new_src = document.getElementById(drum.label+"-img").getAttribute('src').split('-top')[0]+"-top-"+color+"-"+type+".png";
+    // console.log(new_src)
+    document.getElementById(drum.label+"-img").src = new_src;
+  }
+}
 
 // registerHit(drum, color)
 //    Highlights a drum with a particular color and plays the drum's sound
@@ -151,12 +172,22 @@ var clearDrums = function() {
 var registerHit = function(drum, color, velocity) {
   if (!drum.played) {
     // console.log(volume);
-    drum.surface.setProperties({backgroundColor: color});
-    background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'>${Math.abs(velocity)}</h3>`);
+    // drum.surface.setProperties({backgroundColor: color});
+    background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'> Volume: ${Math.abs(volume.toFixed(2))}</h3>`);
+    // console.log(drum)
+    
+    colorDrums(drum, color);
+    
     document.getElementById(drum.label).style.color = color;
     document.getElementById(drum.type).volume = volume;
+    // console.log(volume);
     document.getElementById(drum.type).play();
+    // console.log(drum.drumType == "bongo")
+    // console.log(color == Colors.YELLOW);
+    // console.log("hit registered!")
     drum.played = true;
+    clearDrums();
+    // setTimeout(clearDrums, document.getElementById(drum.type).duration);
     return true;
   } else {
     return false;
@@ -164,8 +195,9 @@ var registerHit = function(drum, color, velocity) {
 };
 
 var playDrum = function(drum, color, velocity) {
-  drum.surface.setProperties({backgroundColor: color});
-  background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'>${Math.abs(velocity)}</h3>`);
+  // drum.surface.setProperties({backgroundColor: color});
+  background.setContent(`<h1>PerfectBeats</h1><h3 style='color: ${color};'> Volume: ${Math.abs(volume.toFixed(2))}</h3>`);
+  colorDrums(drum, color);
   document.getElementById(drum.label).style.color = color;
   document.getElementById(drum.type).play();
   setTimeout(clearDrums, document.getElementById(drum.type).duration);

@@ -60,7 +60,7 @@ function onSelectChange() {
 Leap.loop({ frame: function(frame) {
   if (frame.hands.length > 0) {
     // Clear any highlighting at the beginning of the loop
-    clearDrums();
+    // clearDrums(); do this in registerHit, otherwise some don't have time to turn yellow
 
     for (var h=0; h < frame.hands.length; h++) {
       hand = frame.hands[h];
@@ -75,10 +75,12 @@ Leap.loop({ frame: function(frame) {
         var leftCursorPosition = [leftHand.screenPosition()[0]+50, leftHand.screenPosition()[2]+300];
         var leftSize = (1-(leftHand.screenPosition()[1]+600)/1200)*maxCursorSize
         leftCursor.setScreenPosition(leftCursorPosition);
+        var leftPalmVelocity = leftHand.palmVelocity;
+
         if (leftSize <= hitHeight) {
           leftCursorSurface.setProperties({'borderRadius': hitHeight/2+'px'});//'background': 'lightblue', 
           leftCursorSurface.setSize([hitHeight, hitHeight])
-          var leftPalmVelocity = leftHand.palmVelocity;
+          // var leftPalmVelocity = leftHand.palmVelocity;
           leftSelectedDrum = getIntersectingDrum(leftCursorPosition, leftPalmVelocity, leftCursorSurface, true);
         } else {
           leftCursorSurface.setProperties({'background': 'royalblue', 'borderRadius': leftSize/2+'px'});
@@ -105,12 +107,13 @@ Leap.loop({ frame: function(frame) {
         var rightCursorPosition = [rightHand.screenPosition()[0]+50, rightHand.screenPosition()[2]+300];
         var rightSize = (1-(rightHand.screenPosition()[1]+600)/1200)*maxCursorSize
         rightCursor.setScreenPosition(rightCursorPosition);
+        var rightPalmVelocity = rightHand.palmVelocity;
 
         if (rightSize <= hitHeight) {
           rightCursorSurface.setProperties({'borderRadius': hitHeight/2+'px'});//'background': 'pink', 
           rightCursorSurface.setSize([hitHeight, hitHeight])
 
-          var rightPalmVelocity = rightHand.palmVelocity;
+          // var rightPalmVelocity = rightHand.palmVelocity; moved out of here b/c sometimes was undefined
 
           rightSelectedDrum = getIntersectingDrum(rightCursorPosition, rightPalmVelocity, rightCursorSurface, false);
         } else {
