@@ -17,4 +17,4 @@
 
 ### Instructions
 * Hardware: set up a Leap Motion Controller 
-* Software: go to http://kimbeeyu.scripts.mit.edu/PerfectBeats/ or run locally using the command "python -m http.server"
+* Software: go to http://kimbeeyu.scripts.mit.edu/PerfectBeats/ or run locally using the command "python3 -m http.server"
