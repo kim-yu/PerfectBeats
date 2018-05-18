@@ -14,3 +14,7 @@
 ### index.html: HTML for website, gets necessary JavaScript and CSS files <br />
 ### lib: folder containing necessary JavaScript files in order to use Famo.us, the Leap, and Underscore/Backbone <br />
 ### sounds: folder containing drum sounds <br />
+
+### Instructions
+* Hardware: set up a Leap Motion Controller 
+* Software: go to http://kimbeeyu.scripts.mit.edu/PerfectBeats/ or run locally using the command "python -m http.server"
