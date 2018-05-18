@@ -10,7 +10,7 @@
 
 ### css
 * app.css: CSS for the website <br />
-img: images of the dots and drums with and without highlighting <br />
-index.html: HTML for website, gets necessary JavaScript and CSS files <br />
-lib: folder containing necessary JavaScript files in order to use Famo.us, the Leap, and Underscore/Backbone <br />
-sounds: folder containing drum sounds <br />
+### img: images of the dots and drums with and without highlighting <br />
+### index.html: HTML for website, gets necessary JavaScript and CSS files <br />
+### lib: folder containing necessary JavaScript files in order to use Famo.us, the Leap, and Underscore/Backbone <br />
+### sounds: folder containing drum sounds <br />
