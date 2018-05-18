@@ -23,12 +23,6 @@ var Cursor = Backbone.Model.extend({
   },
 });
 
-// playHit = function(drum) {
-//   setTimeout(function() {
-//     drum.surface.setProperties({backgroundColor: Colors.YELLOW});
-//     document.getElementById(drum.type).play();
-//   }, 200);
-// }
 
 var State = Backbone.Model.extend({
   defaults: {

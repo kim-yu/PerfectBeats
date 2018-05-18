@@ -33,13 +33,8 @@ var volume = 1.0;
 
 function onSelectChange() {
   var new_drum = document.getElementById("select-drum").value;
-  // console.log(new_drum);
   for (drumType in drumsToObject) {
-    // console.log(drumType);
-    // console.log(drumsToSurface[drumType].length);
-    // console.log(drumsToSurface[drumType][0]);
     for (var i=0; i<drumsToObject[drumType].length; i++) {
-      // console.log(drumsToSurface[drumType][i]);
       var currentDrum = drumsToObject[drumType][i].surface;
       currentDrum.setProperties({'display': 'none'});
     }
@@ -48,7 +43,6 @@ function onSelectChange() {
   for (var i=0; i<drumsToObject[new_drum].length; i++) {
     console.log("SelectedDrum");
     var currentDrum = drumsToObject[new_drum][i].surface;
-    // console.log(drum);
     currentDrum.setProperties({'display': 'block'});
   }
 
@@ -59,9 +53,6 @@ function onSelectChange() {
 // Called every time the Leap provides a new frame of data
 Leap.loop({ frame: function(frame) {
   if (frame.hands.length > 0) {
-    // Clear any highlighting at the beginning of the loop
-    // clearDrums(); do this in registerHit, otherwise some don't have time to turn yellow
-
     for (var h=0; h < frame.hands.length; h++) {
       hand = frame.hands[h];
       if (hand.type == 'left') {
@@ -70,7 +61,6 @@ Leap.loop({ frame: function(frame) {
         rightHand = hand;
       }
 
-      // -650 : 200, value+650/800
       if (leftHand != null) {
         var leftCursorPosition = [leftHand.screenPosition()[0]+50, leftHand.screenPosition()[2]+300];
         var leftSize = (1-(leftHand.screenPosition()[1]+600)/1200)*maxCursorSize
@@ -78,9 +68,8 @@ Leap.loop({ frame: function(frame) {
         var leftPalmVelocity = leftHand.palmVelocity;
 
         if (leftSize <= hitHeight) {
-          leftCursorSurface.setProperties({'borderRadius': hitHeight/2+'px'});//'background': 'lightblue', 
+          leftCursorSurface.setProperties({'borderRadius': hitHeight/2+'px'});
           leftCursorSurface.setSize([hitHeight, hitHeight])
-          // var leftPalmVelocity = leftHand.palmVelocity;
           leftSelectedDrum = getIntersectingDrum(leftCursorPosition, leftPalmVelocity, leftCursorSurface, true);
         } else {
           leftCursorSurface.setProperties({'background': 'royalblue', 'borderRadius': leftSize/2+'px'});
@@ -110,11 +99,8 @@ Leap.loop({ frame: function(frame) {
         var rightPalmVelocity = rightHand.palmVelocity;
 
         if (rightSize <= hitHeight) {
-          rightCursorSurface.setProperties({'borderRadius': hitHeight/2+'px'});//'background': 'pink', 
+          rightCursorSurface.setProperties({'borderRadius': hitHeight/2+'px'}); 
           rightCursorSurface.setSize([hitHeight, hitHeight])
-
-          // var rightPalmVelocity = rightHand.palmVelocity; moved out of here b/c sometimes was undefined
-
           rightSelectedDrum = getIntersectingDrum(rightCursorPosition, rightPalmVelocity, rightCursorSurface, false);
         } else {
           rightCursorSurface.setProperties({'background': 'purple', 'borderRadius': rightSize/2+'px'});
